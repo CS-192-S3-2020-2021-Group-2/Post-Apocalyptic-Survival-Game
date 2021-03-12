@@ -5,6 +5,11 @@ This is a course requirements for CS191/192 Software Engineering Courses of the 
 - Gerizim Villarante
 - Renzo Virtucio
 
+# Install all required third party modules
+```bash
+pip install -r requirements.txt
+```
+
 # Third-party modules
 
 ## [Pyglet](http://pyglet.org/)
@@ -12,5 +17,5 @@ This project uses [Pyglet](http://pyglet.org/). Read the docs [here](https://pyg
 
 Install using
 ```bash
-pip install --upgrade --user pyglet
+pip install pyglet
 ```
