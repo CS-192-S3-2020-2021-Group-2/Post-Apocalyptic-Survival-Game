@@ -10,6 +10,11 @@ This is a course requirements for CS191/192 Software Engineering Courses of the 
 pip install -r requirements.txt
 ```
 
+# Run
+```bash
+python main.py
+```
+
 # Third-party modules
 
 ## [Pyglet](http://pyglet.org/)
