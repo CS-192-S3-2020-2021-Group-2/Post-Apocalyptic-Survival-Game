@@ -1,0 +1,55 @@
+{
+    "prompt": "Hi this is a prompt. 3 choices. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed condimentum tortor id mauris volutpat ultrices. Nam blandit condimentum nisi nec ornare. Aliquam ut justo et nisl consequat finibus sed nec nibh.",
+    "actions": [
+        "Option 1a",
+        "Option 1b",
+        "Option 1c"
+    ],
+    "results": [
+        {
+            "prompt": "You chose option 1a. This is the next prompt. 2 choices.",
+            "actions": [
+                "Option 2aa",
+                "Option 2ab"
+            ],
+            "results": [
+                {
+                    "prompt": "Ending 3aa"
+                },
+                {
+                    "prompt": "Ending 3ab"
+                }
+            ]
+        },
+        {
+            "prompt": "You chose option 1b. This is the next prompt. 2 choices.",
+            "actions": [
+                "Option 2ba",
+                "Option 2bb"
+            ],
+            "results": [
+                {
+                    "prompt": "Ending 3ba"
+                },
+                {
+                    "prompt": "Ending 3bb"
+                }
+            ]
+        },
+        {
+            "prompt": "You chose option 1c. This is the next prompt. 2 choices.",
+            "actions": [
+                "Option 2ca",
+                "Option 2cb"
+            ],
+            "results": [
+                {
+                    "prompt": "Ending 3ca"
+                },
+                {
+                    "prompt": "Ending 3cb"
+                }
+            ]
+        }
+    ]
+}

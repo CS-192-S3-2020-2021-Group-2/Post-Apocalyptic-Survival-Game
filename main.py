@@ -1,4 +1,5 @@
 # python built-in modules
+import json
 from enum import Enum
 
 # project modules
@@ -12,11 +13,14 @@ import pyglet
 # constants
 SCREEN_WIDTH, SCREEN_HEIGHT = 1280, 720
 MAIN_MENU, IN_GAME, PAUSE_MENU = range(3)
+STORY_PATH = 'story.json'
 
 
 class Game(object):
     def __init__(self, width, height, caption="", resizeable=False):
         self.window = pyglet.window.Window(width, height, caption, resizeable)
+        with open(STORY_PATH) as story_json:
+            self.story = json.load(story_json)
 
         # set clear color to white
         pyglet.gl.glClearColor(1, 1, 1, 1)
@@ -24,7 +28,7 @@ class Game(object):
         # initiate phases
         self.phases = {
             MAIN_MENU: MainMenu(self),
-            IN_GAME: InGame(self),
+            IN_GAME: InGame(self, self.story),
             PAUSE_MENU: PauseMenu(self),
         }
 
@@ -130,10 +134,13 @@ class MainMenu(Phase):
 
 
 class InGame(Phase):
-    def __init__(self, game):
+    def __init__(self, game, story):
         super().__init__(game)
         self.batch = pyglet.graphics.Batch()
         self.clickables = []  # list of clickable objects
+        self.story = story
+        self.state = self.story  # current progress of the user in the story
+        self.prompt = None
 
         pyglet.text.Label('IN GAME',
                           color=(0, 0, 0, 255),
@@ -144,10 +151,22 @@ class InGame(Phase):
 
         self.clickables.append(
             hud.ImageButton(assets.assets.pause_icon,
-                            SCREEN_WIDTH // 2,
-                            SCREEN_HEIGHT // 2,
+                            SCREEN_WIDTH - 50,
+                            SCREEN_HEIGHT - 50,
                             batch=self.batch,
                             func=lambda: self.game.change_phase(PAUSE_MENU)))
+
+        self.show_prompt()
+
+    def show_prompt(self):
+        if self.prompt is None:
+            self.prompt = hud.Prompt(self.state.get('prompt'),
+                                     batch=self.batch)
+        else:
+            self.prompt.update(text)
+
+    def get_next_state(self, action):
+        pass
 
     def on_draw(self):
         self.game.window.clear()
@@ -173,8 +192,8 @@ class PauseMenu(Phase):
 
         self.clickables.append(
             hud.ImageButton(assets.assets.pause_icon,
-                            SCREEN_WIDTH // 2,
-                            SCREEN_HEIGHT // 2,
+                            SCREEN_WIDTH - 50,
+                            SCREEN_HEIGHT - 50,
                             batch=self.batch,
                             func=lambda: self.game.change_phase(IN_GAME)))
 

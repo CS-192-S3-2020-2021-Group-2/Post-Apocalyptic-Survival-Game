@@ -2,6 +2,9 @@ import pyglet
 import math
 from pyglet import font
 
+# constants
+SCREEN_WIDTH, SCREEN_HEIGHT = 1280, 720
+
 # Note that the font, font size, and positions of labels are still subject to change
 
 # font.add_file('assets/DUMMY-FONT.ttf')
@@ -139,3 +142,22 @@ class ImageButton(object):
     def on_mouse_press(self, x, y, button, modifiers):
         if self.func and self.button_sprite.x - self.button_sprite.width / 2 <= x <= self.button_sprite.x + self.button_sprite.width / 2 and self.button_sprite.y - self.button_sprite.height / 2 <= y <= self.button_sprite.y + self.button_sprite.height / 2:
             self.func()
+
+
+class Prompt(object):
+    def __init__(self, text, batch=None, group=None):
+        self.text = pyglet.text.Label(text,
+                                      font_name="Segoe UI",
+                                      font_size=16,
+                                      color=(0, 0, 0, 255),
+                                      x=SCREEN_WIDTH // 2,
+                                      y=100,
+                                      width=SCREEN_WIDTH - 200,
+                                      anchor_x='center',
+                                      anchor_y='bottom',
+                                      multiline=True,
+                                      batch=batch,
+                                      group=group)
+
+    def update(self, text):
+        self.text.text = text
