@@ -1,6 +1,8 @@
+# python built-in modules
 from enum import Enum
 
 # project modules
+import assets.assets
 import assets
 import hud
 
@@ -72,6 +74,9 @@ class Phase(object):
 
 
 class MainMenu(Phase):
+    '''
+    handles main menu phase / screen
+    '''
     def __init__(self, game):
         super().__init__(game)
         self.batch = pyglet.graphics.Batch()
@@ -85,7 +90,7 @@ class MainMenu(Phase):
                           x=SCREEN_WIDTH // 2,
                           y=200,
                           batch=self.batch)
-                          
+
         self.clickables.append(
             hud.Button('NEW GAME',
                        font_name="Segoe UI Black",
@@ -108,7 +113,7 @@ class MainMenu(Phase):
         self.clickables.append(
             hud.Button('LOAD QUICKSAVE',
                        font_name="Segoe UI Black",
-                       font_size=16,            
+                       font_size=16,
                        x=SCREEN_WIDTH // 2,
                        y=SCREEN_HEIGHT - 300,
                        color=(255, 255, 255, 255),
@@ -128,6 +133,7 @@ class InGame(Phase):
     def __init__(self, game):
         super().__init__(game)
         self.batch = pyglet.graphics.Batch()
+        self.clickables = []  # list of clickable objects
 
         pyglet.text.Label('IN GAME',
                           color=(0, 0, 0, 255),
@@ -136,15 +142,27 @@ class InGame(Phase):
                           y=SCREEN_HEIGHT - 100,
                           batch=self.batch)
 
+        self.clickables.append(
+            hud.ImageButton(assets.assets.pause_icon,
+                            SCREEN_WIDTH // 2,
+                            SCREEN_HEIGHT // 2,
+                            batch=self.batch,
+                            func=lambda: self.game.change_phase(PAUSE_MENU)))
+
     def on_draw(self):
         self.game.window.clear()
         self.batch.draw()
+
+    def on_mouse_press(self, x, y, button, modifiers):
+        for clickable in self.clickables:
+            clickable.on_mouse_press(x, y, button, modifiers)
 
 
 class PauseMenu(Phase):
     def __init__(self, game):
         super().__init__(game)
         self.batch = pyglet.graphics.Batch()
+        self.clickables = []  # list of clickable objects
 
         pyglet.text.Label('PAUSED',
                           color=(0, 0, 0, 255),
@@ -152,6 +170,21 @@ class PauseMenu(Phase):
                           x=SCREEN_WIDTH // 2,
                           y=SCREEN_HEIGHT - 100,
                           batch=self.batch)
+
+        self.clickables.append(
+            hud.ImageButton(assets.assets.pause_icon,
+                            SCREEN_WIDTH // 2,
+                            SCREEN_HEIGHT // 2,
+                            batch=self.batch,
+                            func=lambda: self.game.change_phase(IN_GAME)))
+
+    def on_draw(self):
+        self.game.window.clear()
+        self.batch.draw()
+
+    def on_mouse_press(self, x, y, button, modifiers):
+        for clickable in self.clickables:
+            clickable.on_mouse_press(x, y, button, modifiers)
 
 
 if __name__ == "__main__":
