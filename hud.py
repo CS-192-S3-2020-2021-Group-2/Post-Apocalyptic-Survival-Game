@@ -122,3 +122,20 @@ class Button(object):
     def on_mouse_press(self, x, y, button, modifiers):
         if self.func and self.bg.x - self.bg.width / 2 <= x <= self.bg.x + self.bg.width / 2 and self.bg.y - self.bg.height / 2 <= y <= self.bg.y + self.bg.height / 2:
             self.func()
+
+
+class ImageButton(object):
+    '''
+    assumes img anchor is centered
+    '''
+    def __init__(self, img, x=0, y=0, batch=None, group=None, func=None):
+        self.button_sprite = pyglet.sprite.Sprite(img,
+                                                  x,
+                                                  y,
+                                                  batch=batch,
+                                                  group=group)
+        self.func = func
+
+    def on_mouse_press(self, x, y, button, modifiers):
+        if self.func and self.button_sprite.x - self.button_sprite.width / 2 <= x <= self.button_sprite.x + self.button_sprite.width / 2 and self.button_sprite.y - self.button_sprite.height / 2 <= y <= self.button_sprite.y + self.button_sprite.height / 2:
+            self.func()
