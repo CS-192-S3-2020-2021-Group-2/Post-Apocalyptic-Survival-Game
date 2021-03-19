@@ -97,6 +97,8 @@ class Button(object):
 
         self.items.append(self.bg)
         self.label = pyglet.text.Label(text,
+                                       font_name=font_name,
+                                       font_size=font_size,
                                        x=x,
                                        y=y,
                                        color=color,
