@@ -1,6 +1,7 @@
 from enum import Enum
 
 # project modules
+import assets
 import hud
 
 # third party modules
@@ -76,16 +77,19 @@ class MainMenu(Phase):
         self.batch = pyglet.graphics.Batch()
         self.clickables = []  # list of clickable objects
 
-        pyglet.text.Label("Menina · Villarante · Virtucio",
-                          font_name='DUMMY FONT',
-                          font_size=10,
+        pyglet.text.Label("MENINA · VILLARANTE · VIRTUCIO",
+                          font_name="Press Start",
+                          font_size=8,
                           color=(0, 0, 0, 255),
                           anchor_x='center',
                           x=SCREEN_WIDTH // 2,
                           y=200,
                           batch=self.batch)
+                          
         self.clickables.append(
             hud.Button('NEW GAME',
+                       font_name="Segoe UI Black",
+                       font_size=16,
                        x=SCREEN_WIDTH // 2,
                        y=SCREEN_HEIGHT - 100,
                        color=(255, 255, 255, 255),
@@ -94,6 +98,8 @@ class MainMenu(Phase):
                        func=lambda: self.game.change_phase(IN_GAME)))
         self.clickables.append(
             hud.Button('LOAD SAVED',
+                       font_name="Segoe UI Black",
+                       font_size=16,
                        x=SCREEN_WIDTH // 2,
                        y=SCREEN_HEIGHT - 200,
                        color=(255, 255, 255, 255),
@@ -101,6 +107,8 @@ class MainMenu(Phase):
                        batch=self.batch))
         self.clickables.append(
             hud.Button('LOAD QUICKSAVE',
+                       font_name="Segoe UI Black",
+                       font_size=16,            
                        x=SCREEN_WIDTH // 2,
                        y=SCREEN_HEIGHT - 300,
                        color=(255, 255, 255, 255),
