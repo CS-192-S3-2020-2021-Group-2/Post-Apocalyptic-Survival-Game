@@ -19,18 +19,20 @@ class Button(object):
                  align='left',
                  multiline=False,
                  batch=None,
-                 func=None):
+                 func=None,
+                 order_start=0):
         self.items = []
         self.func = func
+        self.background = pyglet.graphics.OrderedGroup(0 + order_start)
+        self.foreground = pyglet.graphics.OrderedGroup(1 + order_start)
 
-        self.bg = pyglet.shapes.Rectangle(
-            x,
-            y,
-            0,
-            0,
-            color=bg_color,
-            batch=batch,
-            group=pyglet.graphics.OrderedGroup(1))
+        self.bg = pyglet.shapes.Rectangle(x,
+                                          y,
+                                          0,
+                                          0,
+                                          color=bg_color,
+                                          batch=batch,
+                                          group=self.background)
 
         self.items.append(self.bg)
         self.label = pyglet.text.Label(text,
@@ -44,7 +46,7 @@ class Button(object):
                                        align=align,
                                        multiline=multiline,
                                        batch=batch,
-                                       group=pyglet.graphics.OrderedGroup(2))
+                                       group=self.foreground)
         self.items.append(self.label)
 
         if width is None:

@@ -171,7 +171,7 @@ class InGame(Phase):
             self.prompt = hud.Prompt(self.state.get('prompt'),
                                      batch=self.batch)
         else:
-            self.prompt.update(text)
+            self.prompt.update(self.state.get('prompt'))
 
     def get_next_state(self, action):
         pass
@@ -185,7 +185,7 @@ class InGame(Phase):
             clickable.on_mouse_press(x, y, button, modifiers)
 
 
-class PauseMenu(Phase): # BUG: text in Pause Menu buttons are not showing
+class PauseMenu(Phase):
     def __init__(self, game):
         super().__init__(game)
         self.batch = pyglet.graphics.Batch()
@@ -215,15 +215,16 @@ class PauseMenu(Phase): # BUG: text in Pause Menu buttons are not showing
                        batch=self.batch,
                        func=lambda: self.game.change_phase(IN_GAME)))
         self.clickables.append(
-            hud.Button('MAIN MENU',                 # Changed "New Game" to "Main Menu"
-                       font_name="Segoe UI Black",
-                       font_size=14,
-                       x=SCREEN_WIDTH // 2,
-                       y=SCREEN_HEIGHT - 300,
-                       color=(255, 255, 255, 255),
-                       bg_color=(239, 68, 68),
-                       batch=self.batch,
-                       func=lambda: self.game.change_phase(MAIN_MENU)))
+            hud.Button(
+                'MAIN MENU',  # Changed "New Game" to "Main Menu"
+                font_name="Segoe UI Black",
+                font_size=14,
+                x=SCREEN_WIDTH // 2,
+                y=SCREEN_HEIGHT - 300,
+                color=(255, 255, 255, 255),
+                bg_color=(239, 68, 68),
+                batch=self.batch,
+                func=lambda: self.game.change_phase(MAIN_MENU)))
         self.clickables.append(
             hud.Button('SURRENDER',
                        font_name="Segoe UI Black",
@@ -242,7 +243,8 @@ class PauseMenu(Phase): # BUG: text in Pause Menu buttons are not showing
                        color=(255, 255, 255, 255),
                        bg_color=(239, 68, 68),
                        batch=self.batch,
-                       func=lambda: pyglet.app.exit())) # BUG: produces 'error in sys.excepthook'
+                       func=lambda: pyglet.app.exit())
+        )  # BUG: produces 'error in sys.excepthook'
 
     def on_draw(self):
         self.game.window.clear()
