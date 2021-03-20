@@ -86,21 +86,29 @@ class MainMenu(Phase):
         self.batch = pyglet.graphics.Batch()
         self.clickables = []  # list of clickable objects
 
+        pyglet.text.Label("POST APOCALYPTIC SURVIVAL GAME",
+                          font_name="Press Start",
+                          font_size=22,
+                          color=(0, 0, 0, 255),
+                          anchor_x='center',
+                          x=SCREEN_WIDTH // 2,
+                          y=SCREEN_HEIGHT - 200,
+                          batch=self.batch)
         pyglet.text.Label("MENINA · VILLARANTE · VIRTUCIO",
                           font_name="Press Start",
                           font_size=8,
                           color=(0, 0, 0, 255),
                           anchor_x='center',
                           x=SCREEN_WIDTH // 2,
-                          y=200,
+                          y=SCREEN_HEIGHT - 250,
                           batch=self.batch)
 
         self.clickables.append(
             hud.Button('NEW GAME',
                        font_name="Segoe UI Black",
-                       font_size=16,
+                       font_size=14,
                        x=SCREEN_WIDTH // 2,
-                       y=SCREEN_HEIGHT - 100,
+                       y=SCREEN_HEIGHT - 350,
                        color=(255, 255, 255, 255),
                        bg_color=(239, 68, 68),
                        batch=self.batch,
@@ -108,18 +116,18 @@ class MainMenu(Phase):
         self.clickables.append(
             hud.Button('LOAD SAVED',
                        font_name="Segoe UI Black",
-                       font_size=16,
+                       font_size=14,
                        x=SCREEN_WIDTH // 2,
-                       y=SCREEN_HEIGHT - 200,
+                       y=SCREEN_HEIGHT - 450,
                        color=(255, 255, 255, 255),
                        bg_color=(239, 68, 68),
                        batch=self.batch))
         self.clickables.append(
             hud.Button('LOAD QUICKSAVE',
                        font_name="Segoe UI Black",
-                       font_size=16,
+                       font_size=14,
                        x=SCREEN_WIDTH // 2,
-                       y=SCREEN_HEIGHT - 300,
+                       y=SCREEN_HEIGHT - 550,
                        color=(255, 255, 255, 255),
                        bg_color=(239, 68, 68),
                        batch=self.batch))
@@ -177,7 +185,7 @@ class InGame(Phase):
             clickable.on_mouse_press(x, y, button, modifiers)
 
 
-class PauseMenu(Phase):
+class PauseMenu(Phase): # BUG: text in Pause Menu buttons are not showing
     def __init__(self, game):
         super().__init__(game)
         self.batch = pyglet.graphics.Batch()
@@ -196,6 +204,45 @@ class PauseMenu(Phase):
                             SCREEN_HEIGHT - 50,
                             batch=self.batch,
                             func=lambda: self.game.change_phase(IN_GAME)))
+        self.clickables.append(
+            hud.Button('RESUME',
+                       font_name="Segoe UI Black",
+                       font_size=14,
+                       x=SCREEN_WIDTH // 2,
+                       y=SCREEN_HEIGHT - 200,
+                       color=(255, 255, 255, 255),
+                       bg_color=(239, 68, 68),
+                       batch=self.batch,
+                       func=lambda: self.game.change_phase(IN_GAME)))
+        self.clickables.append(
+            hud.Button('MAIN MENU',                 # Changed "New Game" to "Main Menu"
+                       font_name="Segoe UI Black",
+                       font_size=14,
+                       x=SCREEN_WIDTH // 2,
+                       y=SCREEN_HEIGHT - 300,
+                       color=(255, 255, 255, 255),
+                       bg_color=(239, 68, 68),
+                       batch=self.batch,
+                       func=lambda: self.game.change_phase(MAIN_MENU)))
+        self.clickables.append(
+            hud.Button('SURRENDER',
+                       font_name="Segoe UI Black",
+                       font_size=14,
+                       x=SCREEN_WIDTH // 2,
+                       y=SCREEN_HEIGHT - 400,
+                       color=(255, 255, 255, 255),
+                       bg_color=(239, 68, 68),
+                       batch=self.batch))
+        self.clickables.append(
+            hud.Button('EXIT GAME',
+                       font_name="Segoe UI Black",
+                       font_size=14,
+                       x=SCREEN_WIDTH // 2,
+                       y=SCREEN_HEIGHT - 500,
+                       color=(255, 255, 255, 255),
+                       bg_color=(239, 68, 68),
+                       batch=self.batch,
+                       func=lambda: pyglet.app.exit())) # BUG: produces 'error in sys.excepthook'
 
     def on_draw(self):
         self.game.window.clear()
