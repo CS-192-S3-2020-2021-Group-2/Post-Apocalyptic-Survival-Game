@@ -29,7 +29,7 @@ class Game(object):
         self.phases = {
             MAIN_MENU: MainMenu(self),
             IN_GAME: InGame(self, self.story),
-            PAUSE_MENU: PauseMenu(self),
+            PAUSE_MENU: PauseMenu(self, ),
         }
 
         # set current phase to main menu
@@ -39,6 +39,11 @@ class Game(object):
                                   self.cur_phase.on_mouse_press)
 
         pyglet.clock.schedule_interval(self.update, 1 / 60.0)
+
+    def new_game(self):
+        del self.phases[IN_GAME]
+        self.phases[IN_GAME] = InGame(self, self.story)
+        self.change_phase(IN_GAME)
 
     def change_phase(self, phase):
         self.window.pop_handlers()
@@ -112,7 +117,7 @@ class MainMenu(Phase):
                        color=(255, 255, 255, 255),
                        bg_color=(239, 68, 68),
                        batch=self.batch,
-                       func=lambda: self.game.change_phase(IN_GAME)))
+                       func=self.game.new_game))
         self.clickables.append(
             hud.Button('LOAD SAVED',
                        font_name="Segoe UI Black",
@@ -141,14 +146,25 @@ class MainMenu(Phase):
             clickable.on_mouse_press(x, y, button, modifiers)
 
 
+class ActionNotFound(Exception):
+    def __init__(self, action):
+        self.action = action
+        self.message = 'Action not found: {action}'
+        super().__init__(self.message)
+
+
 class InGame(Phase):
-    def __init__(self, game, story):
+    def __init__(self, game, story, state=None):
         super().__init__(game)
         self.batch = pyglet.graphics.Batch()
         self.clickables = []  # list of clickable objects
         self.story = story
-        self.state = self.story  # current progress of the user in the story
+
+        # current progress of the user in the story
+        self.state = self.story['states'].get('entry')
+
         self.prompt = None
+        self.actions = None
 
         pyglet.text.Label('IN GAME',
                           color=(0, 0, 0, 255),
@@ -162,9 +178,11 @@ class InGame(Phase):
                             SCREEN_WIDTH - 50,
                             SCREEN_HEIGHT - 50,
                             batch=self.batch,
-                            func=lambda: self.game.change_phase(PAUSE_MENU)))
+                            func=self.game.change_phase,
+                            func_args=[PAUSE_MENU]))
 
         self.show_prompt()
+        self.show_actions()
 
     def show_prompt(self):
         if self.prompt is None:
@@ -173,8 +191,42 @@ class InGame(Phase):
         else:
             self.prompt.update(self.state.get('prompt'))
 
+    def hide_prompt(self):
+        del self.prompt
+
+    def show_actions(self):
+        if self.actions is not None:
+            self.hide_actions()
+
+        texts = self.state.get('actions')
+        funcs = [self.get_next_state for _ in texts]
+        funcs_args = [[text] for text in texts]
+
+        self.actions = hud.ButtonArray(
+            texts,
+            funcs=funcs,
+            funcs_args=funcs_args,
+            font_name="Segoe UI Black",
+            font_size=14,
+            x=SCREEN_WIDTH // 2,
+            y=100,
+            spacing_x=170,
+            width=150,
+            color=(255, 255, 255, 255),
+            bg_color=(239, 68, 68),
+            batch=self.batch,
+        )
+
+    def hide_actions(self):
+        del self.actions
+
     def get_next_state(self, action):
-        pass
+        next_state = self.story['states'].get(action)
+        if next_state is None:
+            raise ActionNotFound(action)
+        self.state = next_state
+        self.show_prompt()
+        self.show_actions()
 
     def on_draw(self):
         self.game.window.clear()
@@ -183,6 +235,9 @@ class InGame(Phase):
     def on_mouse_press(self, x, y, button, modifiers):
         for clickable in self.clickables:
             clickable.on_mouse_press(x, y, button, modifiers)
+
+        if self.actions is not None:
+            self.actions.on_mouse_press(x, y, button, modifiers)
 
 
 class PauseMenu(Phase):
@@ -203,7 +258,8 @@ class PauseMenu(Phase):
                             SCREEN_WIDTH - 50,
                             SCREEN_HEIGHT - 50,
                             batch=self.batch,
-                            func=lambda: self.game.change_phase(IN_GAME)))
+                            func=self.game.change_phase,
+                            func_args=[IN_GAME]))
         self.clickables.append(
             hud.Button('RESUME',
                        font_name="Segoe UI Black",
@@ -213,7 +269,8 @@ class PauseMenu(Phase):
                        color=(255, 255, 255, 255),
                        bg_color=(239, 68, 68),
                        batch=self.batch,
-                       func=lambda: self.game.change_phase(IN_GAME)))
+                       func=self.game.change_phase,
+                       func_args=[IN_GAME]))
         self.clickables.append(
             hud.Button(
                 'MAIN MENU',  # Changed "New Game" to "Main Menu"
@@ -224,7 +281,8 @@ class PauseMenu(Phase):
                 color=(255, 255, 255, 255),
                 bg_color=(239, 68, 68),
                 batch=self.batch,
-                func=lambda: self.game.change_phase(MAIN_MENU)))
+                func=self.game.change_phase,
+                func_args=[MAIN_MENU]))
         self.clickables.append(
             hud.Button('SURRENDER',
                        font_name="Segoe UI Black",
@@ -243,7 +301,7 @@ class PauseMenu(Phase):
                        color=(255, 255, 255, 255),
                        bg_color=(239, 68, 68),
                        batch=self.batch,
-                       func=lambda: pyglet.app.exit())
+                       func=pyglet.app.exit)
         )  # BUG: produces 'error in sys.excepthook'
 
     def on_draw(self):

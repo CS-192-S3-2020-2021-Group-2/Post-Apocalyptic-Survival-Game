@@ -1,55 +1,58 @@
 {
-    "prompt": "Hi this is a prompt. 3 choices. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed condimentum tortor id mauris volutpat ultrices. Nam blandit condimentum nisi nec ornare. Aliquam ut justo et nisl consequat finibus sed nec nibh.",
-    "actions": [
-        "Option 1a",
-        "Option 1b",
-        "Option 1c"
-    ],
-    "results": [
-        {
+    "id": "test case",
+    "states": {
+        "entry": {
+            "prompt": "Hi this is a prompt. 3 choices. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed condimentum tortor id mauris volutpat ultrices. Nam blandit condimentum nisi nec ornare. Aliquam ut justo et nisl consequat finibus sed nec nibh.",
+            "actions": [
+                "Option 1a",
+                "Option 1b",
+                "Option 1c"
+            ]
+        },
+        "Option 1a": {
             "prompt": "You chose option 1a. This is the next prompt. 2 choices.",
             "actions": [
                 "Option 2aa",
                 "Option 2ab"
-            ],
-            "results": [
-                {
-                    "prompt": "Ending 3aa"
-                },
-                {
-                    "prompt": "Ending 3ab"
-                }
             ]
         },
-        {
+        "Option 1b": {
             "prompt": "You chose option 1b. This is the next prompt. 2 choices.",
             "actions": [
                 "Option 2ba",
                 "Option 2bb"
-            ],
-            "results": [
-                {
-                    "prompt": "Ending 3ba"
-                },
-                {
-                    "prompt": "Ending 3bb"
-                }
             ]
         },
-        {
+        "Option 1c": {
             "prompt": "You chose option 1c. This is the next prompt. 2 choices.",
             "actions": [
                 "Option 2ca",
                 "Option 2cb"
-            ],
-            "results": [
-                {
-                    "prompt": "Ending 3ca"
-                },
-                {
-                    "prompt": "Ending 3cb"
-                }
             ]
+        },
+        "Option 2aa": {
+            "prompt": "Ending 3aa",
+            "actions": []
+        },
+        "Option 2ab": {
+            "prompt": "Ending 3ab",
+            "actions": []
+        },
+        "Option 2ba": {
+            "prompt": "Ending 3ba",
+            "actions": []
+        },
+        "Option 2bb": {
+            "prompt": "Ending 3bb",
+            "actions": []
+        },
+        "Option 2ca": {
+            "prompt": "Ending 3ca",
+            "actions": []
+        },
+        "Option 2cb": {
+            "prompt": "Ending 3cb",
+            "actions": []
         }
-    ]
+    }
 }
