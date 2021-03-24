@@ -30,8 +30,11 @@ class Button(object):
         self.func = func
         self.func_args = func_args
         self.func_kargs = func_kargs
-        self.background = pyglet.graphics.OrderedGroup(0 + order_start)
-        self.foreground = pyglet.graphics.OrderedGroup(1 + order_start)
+        self.group = pyglet.graphics.Group()
+        self.background = pyglet.graphics.OrderedGroup(0 + order_start,
+                                                       parent=self.group)
+        self.foreground = pyglet.graphics.OrderedGroup(1 + order_start,
+                                                       parent=self.group)
 
         self.bg = pyglet.shapes.Rectangle(x,
                                           y,
