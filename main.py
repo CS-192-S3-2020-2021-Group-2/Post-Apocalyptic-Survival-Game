@@ -320,7 +320,7 @@ class PauseMenu(Phase):
                 func=self.game.change_phase,
                 func_args=[MAIN_MENU]))
         self.clickables.append(
-            hud.Button('SURRENDER',
+            hud.Button('SAVE PROGRESS',
                        font_name="Segoe UI Black",
                        font_size=14,
                        x=SCREEN_WIDTH // 2,
@@ -329,11 +329,20 @@ class PauseMenu(Phase):
                        bg_color=(239, 68, 68),
                        batch=self.batch))
         self.clickables.append(
-            hud.Button('EXIT GAME',
+            hud.Button('SURRENDER',
                        font_name="Segoe UI Black",
                        font_size=14,
                        x=SCREEN_WIDTH // 2,
                        y=SCREEN_HEIGHT - 500,
+                       color=(255, 255, 255, 255),
+                       bg_color=(239, 68, 68),
+                       batch=self.batch))
+        self.clickables.append(
+            hud.Button('EXIT GAME',
+                       font_name="Segoe UI Black",
+                       font_size=14,
+                       x=SCREEN_WIDTH // 2,
+                       y=SCREEN_HEIGHT - 600,
                        color=(255, 255, 255, 255),
                        bg_color=(239, 68, 68),
                        batch=self.batch,
