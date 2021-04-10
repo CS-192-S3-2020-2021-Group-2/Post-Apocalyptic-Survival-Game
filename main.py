@@ -13,7 +13,7 @@ import pyglet
 
 # constants
 SCREEN_WIDTH, SCREEN_HEIGHT = 1280, 720
-MAIN_MENU, IN_GAME, PAUSE_MENU = range(3)
+MAIN_MENU, IN_GAME, PAUSE_MENU, SAVED_GAMES = range(4)
 STORY_FILENAME = 'story.json'
 SAVE_DIR = 'saves'
 
@@ -31,6 +31,7 @@ class Game(object):
             MAIN_MENU: MainMenu(self),
             IN_GAME: InGame(self, self.story),
             PAUSE_MENU: PauseMenu(self, ),
+            SAVED_GAMES: SavedGames(self)
         }
 
         # set current phase to main menu
@@ -161,7 +162,9 @@ class MainMenu(Phase):
                        y=SCREEN_HEIGHT - 450,
                        color=(255, 255, 255, 255),
                        bg_color=(239, 68, 68),
-                       batch=self.batch))
+                       batch=self.batch,
+                       func=self.game.change_phase,
+                       func_args=[SAVED_GAMES]))
         self.clickables.append(
             hud.Button('LOAD QUICKSAVE',
                        font_name="Segoe UI Black",
@@ -180,6 +183,70 @@ class MainMenu(Phase):
         for clickable in self.clickables:
             clickable.on_mouse_press(x, y, button, modifiers)
 
+class SavedGames(Phase):
+    '''
+    displays the saved games from previous sessions
+    '''
+    def __init__(self, game):
+        super().__init__(game)
+        self.batch = pyglet.graphics.Batch()
+        self.clickables = []  # list of clickable objects
+
+        pyglet.text.Label('SAVED GAMES',
+                          color=(0, 0, 0, 255),
+                          anchor_x='center',
+                          x=SCREEN_WIDTH // 2,
+                          y=SCREEN_HEIGHT - 100,
+                          batch=self.batch)
+
+        self.clickables.append(
+            hud.Button(
+                    'BACK',     # NOTE: Change to a 'Back' icon for distinguishability
+                    font_name="Segoe UI Black",
+                    font_size=14,
+                    x=SCREEN_WIDTH - 50,
+                    y=SCREEN_HEIGHT - 50,
+                    color=(0, 0, 0, 255),
+                    bg_color=(255, 255, 255),
+                    batch=self.batch,
+                    func=self.game.change_phase,
+                    func_args=[MAIN_MENU]))
+        self.clickables.append(
+            hud.Button('SLOT 1',    # non functional yet
+                       font_name="Segoe UI Black",
+                       font_size=14,
+                       x=SCREEN_WIDTH // 2,
+                       y=SCREEN_HEIGHT - 200,
+                       color=(255, 255, 255, 255),
+                       bg_color=(239, 68, 68),
+                       batch=self.batch))
+        self.clickables.append(
+            hud.Button(
+                'SLOT 2',           # non functioonal yet
+                font_name="Segoe UI Black",
+                font_size=14,
+                x=SCREEN_WIDTH // 2,
+                y=SCREEN_HEIGHT - 300,
+                color=(255, 255, 255, 255),
+                bg_color=(239, 68, 68),
+                batch=self.batch))
+        self.clickables.append(
+            hud.Button('SLOT 3',    # non functional yet
+                       font_name="Segoe UI Black",
+                       font_size=14,
+                       x=SCREEN_WIDTH // 2,
+                       y=SCREEN_HEIGHT - 400,
+                       color=(255, 255, 255, 255),
+                       bg_color=(239, 68, 68),
+                       batch=self.batch))
+
+    def on_draw(self):
+        self.game.window.clear()
+        self.batch.draw()
+
+    def on_mouse_press(self, x, y, button, modifiers):
+        for clickable in self.clickables:
+            clickable.on_mouse_press(x, y, button, modifiers)
 
 class ActionNotFound(Exception):
     def __init__(self, action):
@@ -320,7 +387,7 @@ class PauseMenu(Phase):
                 func=self.game.change_phase,
                 func_args=[MAIN_MENU]))
         self.clickables.append(
-            hud.Button('SAVE PROGRESS',
+            hud.Button('SAVE PROGRESS', # non functional yet
                        font_name="Segoe UI Black",
                        font_size=14,
                        x=SCREEN_WIDTH // 2,
@@ -329,7 +396,7 @@ class PauseMenu(Phase):
                        bg_color=(239, 68, 68),
                        batch=self.batch))
         self.clickables.append(
-            hud.Button('SURRENDER',
+            hud.Button('SURRENDER', # non functional yet
                        font_name="Segoe UI Black",
                        font_size=14,
                        x=SCREEN_WIDTH // 2,
