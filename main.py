@@ -66,7 +66,8 @@ class Game(object):
                                   self.cur_phase.on_mouse_press)
 
     def main_menu(self):
-        self.phases[MAIN_MENU].reset()
+        # self.phases[MAIN_MENU].reset()
+        self.phases[MAIN_MENU] = MainMenu(self)
         self.change_phase(MAIN_MENU)
 
     def change_phase(self, phase):
@@ -101,6 +102,16 @@ class Game(object):
             return None
         with open(path) as save_file:
             return self.story['states'].get(save_file.readline())
+
+    def quicksave(self, destination):
+        self.save_state('0')            # initiate save using slot 0
+
+        # if player exits, quicksave
+        if destination == PauseMenu.TO_EXIT:
+            pyglet.app.exit()
+
+        # if player returns to menu, quicksave
+        self.main_menu()
 
     def slot_exists(self, name='0'):
         path = os.path.join(SAVE_DIR, name)
@@ -193,7 +204,8 @@ class MainMenu(Phase):
                        bg_color=(239, 68, 68) if quicksave_exist else
                        (254, 226, 226),
                        batch=self.batch,
-                       func=self.game.load_game if quicksave_exist else None))
+                       func=self.game.load_game if quicksave_exist else None,
+                       func_args=['0']))
 
     def on_draw(self):
         self.game.window.clear()
@@ -408,6 +420,8 @@ class InGame(Phase):
 
 
 class PauseMenu(Phase):
+    TO_EXIT, TO_MENU = range(2)
+
     def __init__(self, game):
         super().__init__(game)
         self.batch = pyglet.graphics.Batch()
@@ -447,7 +461,8 @@ class PauseMenu(Phase):
                        color=(255, 255, 255, 255),
                        bg_color=(239, 68, 68),
                        batch=self.batch,
-                       func=self.game.main_menu))
+                       func=self.game.quicksave,
+                       func_args=[PauseMenu.TO_MENU]))
         self.clickables.append(
             hud.Button('SAVE PROGRESS',
                        font_name="Segoe UI Black",
@@ -477,7 +492,8 @@ class PauseMenu(Phase):
                        color=(255, 255, 255, 255),
                        bg_color=(239, 68, 68),
                        batch=self.batch,
-                       func=pyglet.app.exit)
+                       func=self.game.quicksave,
+                       func_args=[PauseMenu.TO_EXIT])
         )  # BUG: produces 'error in sys.excepthook'
 
     def on_draw(self):
