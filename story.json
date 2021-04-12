@@ -4,30 +4,57 @@
         "entry": {
             "prompt": "Hi this is a prompt. 3 choices. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed condimentum tortor id mauris volutpat ultrices. Nam blandit condimentum nisi nec ornare. Aliquam ut justo et nisl consequat finibus sed nec nibh.",
             "actions": [
-                "Option 1a",
-                "Option 1b",
-                "Option 1c"
+                {
+                    "name": "Name of option 1a",
+                    "next_state": "Option 1a"
+                },
+                {
+                    "name": "Name of option 1b",
+                    "next_state": "Option 1b"
+                },
+                {
+                    "name": "Name of option 1c",
+                    "next_state": "Option 1c"
+                }
             ]
         },
         "Option 1a": {
             "prompt": "You chose option 1a. This is the next prompt. 2 choices.",
             "actions": [
-                "Option 2aa",
-                "Option 2ab"
+                {
+                    "name": "Name of option 2aa",
+                    "next_state": "Option 2aa"
+                },
+                {
+                    "name": "Name of option 2ab",
+                    "next_state": "Option 2ab"
+                }
             ]
         },
         "Option 1b": {
             "prompt": "You chose option 1b. This is the next prompt. 2 choices.",
             "actions": [
-                "Option 2ba",
-                "Option 2bb"
+                {
+                    "name": "Name of option 2ba",
+                    "next_state": "Option 2ba"
+                },
+                {
+                    "name": "Name of option 2bb",
+                    "next_state": "Option 2bb"
+                }
             ]
         },
         "Option 1c": {
             "prompt": "You chose option 1c. This is the next prompt. 2 choices.",
             "actions": [
-                "Option 2ca",
-                "Option 2cb"
+                {
+                    "name": "Name of option 2ca",
+                    "next_state": "Option 2ca"
+                },
+                {
+                    "name": "Name of option 2cb",
+                    "next_state": "Option 2cb"
+                }
             ]
         },
         "Option 2aa": {

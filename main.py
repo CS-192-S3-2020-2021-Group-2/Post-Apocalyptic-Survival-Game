@@ -29,9 +29,8 @@ class Game(object):
         # initiate phases
         self.phases = {
             MAIN_MENU: MainMenu(self),
-            IN_GAME: InGame(self, self.story),
-            PAUSE_MENU: PauseMenu(self, ),
-            SAVED_GAMES: SavedGames(self)
+            IN_GAME: InGame(self),
+            PAUSE_MENU: PauseMenu(self)
         }
 
         # set current phase to main menu
@@ -42,15 +41,30 @@ class Game(object):
 
         pyglet.clock.schedule_interval(self.update, 1 / 60.0)
 
+    def get_ingame_state(self):
+        return self.phases.get(IN_GAME).state
+
     def new_game(self):
-        del self.phases[IN_GAME]
-        self.phases[IN_GAME] = InGame(self, self.story)
+        self.phases[IN_GAME] = InGame(self)
         self.change_phase(IN_GAME)
 
-    def load_game(self, state):
-        del self.phases[IN_GAME]
-        self.phases[IN_GAME] = InGame(self, self.story, state=state)
+    def load_game(self, name='0'):
+        self.phases[IN_GAME] = InGame(self, state=self.load_state(name))
         self.change_phase(IN_GAME)
+
+    def save_state_phase(self):
+        self.window.pop_handlers()
+        self.cur_phase = SavedGames(self, SavedGames.SAVE)
+        self.window.push_handlers(self.cur_phase.on_draw,
+                                  self.cur_phase.on_key_press,
+                                  self.cur_phase.on_mouse_press)
+
+    def load_state_phase(self):
+        self.window.pop_handlers()
+        self.cur_phase = SavedGames(self, SavedGames.LOAD)
+        self.window.push_handlers(self.cur_phase.on_draw,
+                                  self.cur_phase.on_key_press,
+                                  self.cur_phase.on_mouse_press)
 
     def change_phase(self, phase):
         self.window.pop_handlers()
@@ -70,7 +84,8 @@ class Game(object):
 
         return story
 
-    def save_state(self, state, name='0'):
+    def save_state(self, name='0'):
+        state = self.get_ingame_state()
         # create save files directory if it doesn't exist
         pathlib.Path(SAVE_DIR).mkdir(exist_ok=True)
 
@@ -78,15 +93,15 @@ class Game(object):
             save_file.write(state.get('name'))
 
     def load_state(self, name='0'):
-        with open(os.path.join(SAVE_DIR, name)) as save_file:
-            return self.story['states'][save_file.readline()]
+        path = os.path.join(SAVE_DIR, name)
+        if not os.path.exists(path):
+            return None
+        with open(path) as save_file:
+            return self.story['states'].get(save_file.readline())
 
-    def load_all_states(self):
-        states = []
-        for path in pathlib.Path(SAVE_DIR).iterdir():
-            with path.open() as save_file:
-                states.append(self.story['states'][save_file.readline()])
-        return states
+    def slot_exists(self, name='0'):
+        path = os.path.join(SAVE_DIR, name)
+        return os.path.exists(path)
 
     def update(self, dt):
         self.cur_phase.update(dt)
@@ -163,8 +178,8 @@ class MainMenu(Phase):
                        color=(255, 255, 255, 255),
                        bg_color=(239, 68, 68),
                        batch=self.batch,
-                       func=self.game.change_phase,
-                       func_args=[SAVED_GAMES]))
+                       func=self.game.load_state_phase))
+        quicksave_exist = self.game.slot_exists('0')
         self.clickables.append(
             hud.Button('LOAD QUICKSAVE',
                        font_name="Segoe UI Black",
@@ -172,8 +187,10 @@ class MainMenu(Phase):
                        x=SCREEN_WIDTH // 2,
                        y=SCREEN_HEIGHT - 550,
                        color=(255, 255, 255, 255),
-                       bg_color=(239, 68, 68),
-                       batch=self.batch))
+                       bg_color=(239, 68, 68) if quicksave_exist else
+                       (254, 226, 226),
+                       batch=self.batch,
+                       func=self.game.load_game if quicksave_exist else None))
 
     def on_draw(self):
         self.game.window.clear()
@@ -183,11 +200,13 @@ class MainMenu(Phase):
         for clickable in self.clickables:
             clickable.on_mouse_press(x, y, button, modifiers)
 
+
 class SavedGames(Phase):
+    SAVE, LOAD = range(2)
     '''
     displays the saved games from previous sessions
     '''
-    def __init__(self, game):
+    def __init__(self, game, mode):
         super().__init__(game)
         self.batch = pyglet.graphics.Batch()
         self.clickables = []  # list of clickable objects
@@ -199,46 +218,60 @@ class SavedGames(Phase):
                           y=SCREEN_HEIGHT - 100,
                           batch=self.batch)
 
+        function = self.game.load_game if mode == SavedGames.LOAD else self.game.save_state
+        force_enable = mode == SavedGames.SAVE
+
         self.clickables.append(
             hud.Button(
-                    'BACK',     # NOTE: Change to a 'Back' icon for distinguishability
-                    font_name="Segoe UI Black",
-                    font_size=14,
-                    x=SCREEN_WIDTH - 50,
-                    y=SCREEN_HEIGHT - 50,
-                    color=(0, 0, 0, 255),
-                    bg_color=(255, 255, 255),
-                    batch=self.batch,
-                    func=self.game.change_phase,
-                    func_args=[MAIN_MENU]))
+                'BACK',  # NOTE: Change to a 'Back' icon for distinguishability
+                font_name="Segoe UI Black",
+                font_size=14,
+                x=SCREEN_WIDTH - 50,
+                y=SCREEN_HEIGHT - 50,
+                color=(0, 0, 0, 255),
+                bg_color=(255, 255, 255),
+                batch=self.batch,
+                func=self.game.change_phase,
+                func_args=[MAIN_MENU]))
+        slot1_enable = force_enable or self.game.slot_exists('1')
         self.clickables.append(
-            hud.Button('SLOT 1',    # non functional yet
+            hud.Button('SLOT 1',
                        font_name="Segoe UI Black",
                        font_size=14,
                        x=SCREEN_WIDTH // 2,
                        y=SCREEN_HEIGHT - 200,
                        color=(255, 255, 255, 255),
-                       bg_color=(239, 68, 68),
-                       batch=self.batch))
+                       bg_color=(239, 68, 68) if slot1_enable else
+                       (254, 226, 226),
+                       batch=self.batch,
+                       func=function if slot1_enable else None,
+                       func_args=['1']))
+        slot2_enable = force_enable or self.game.slot_exists('2')
         self.clickables.append(
-            hud.Button(
-                'SLOT 2',           # non functioonal yet
-                font_name="Segoe UI Black",
-                font_size=14,
-                x=SCREEN_WIDTH // 2,
-                y=SCREEN_HEIGHT - 300,
-                color=(255, 255, 255, 255),
-                bg_color=(239, 68, 68),
-                batch=self.batch))
+            hud.Button('SLOT 2',
+                       font_name="Segoe UI Black",
+                       font_size=14,
+                       x=SCREEN_WIDTH // 2,
+                       y=SCREEN_HEIGHT - 300,
+                       color=(255, 255, 255, 255),
+                       bg_color=(239, 68, 68) if slot2_enable else
+                       (254, 226, 226),
+                       batch=self.batch,
+                       func=function if slot2_enable else None,
+                       func_args=['2']))
+        slot3_enable = force_enable or self.game.slot_exists('3')
         self.clickables.append(
-            hud.Button('SLOT 3',    # non functional yet
+            hud.Button('SLOT 3',
                        font_name="Segoe UI Black",
                        font_size=14,
                        x=SCREEN_WIDTH // 2,
                        y=SCREEN_HEIGHT - 400,
                        color=(255, 255, 255, 255),
-                       bg_color=(239, 68, 68),
-                       batch=self.batch))
+                       bg_color=(239, 68, 68) if slot3_enable else
+                       (254, 226, 226),
+                       batch=self.batch,
+                       func=function if slot3_enable else None,
+                       func_args=['3']))
 
     def on_draw(self):
         self.game.window.clear()
@@ -248,6 +281,7 @@ class SavedGames(Phase):
         for clickable in self.clickables:
             clickable.on_mouse_press(x, y, button, modifiers)
 
+
 class ActionNotFound(Exception):
     def __init__(self, action):
         self.action = action
@@ -256,15 +290,17 @@ class ActionNotFound(Exception):
 
 
 class InGame(Phase):
-    def __init__(self, game, story, state=None):
+    def __init__(self, game, state=None):
         super().__init__(game)
         self.batch = pyglet.graphics.Batch()
         self.clickables = []  # list of clickable objects
-        self.story = story
+        self.story = self.game.story
 
         # current progress of the user in the story
-        if state is None:
+        if not state:
             self.state = self.story['states'].get('entry')
+        else:
+            self.state = state
 
         self.prompt = None
         self.actions = None
@@ -288,7 +324,7 @@ class InGame(Phase):
         self.show_actions()
 
     def show_prompt(self):
-        if self.prompt is None:
+        if not self.prompt:
             self.prompt = hud.Prompt(self.state.get('prompt'),
                                      batch=self.batch)
         else:
@@ -298,12 +334,13 @@ class InGame(Phase):
         del self.prompt
 
     def show_actions(self):
-        if self.actions is not None:
+        if not self.actions:
             self.hide_actions()
 
-        texts = self.state.get('actions')
-        funcs = [self.get_next_state for _ in texts]
-        funcs_args = [[text] for text in texts]
+        actions = self.state.get('actions')
+        texts = [action["name"] for action in actions]
+        funcs = [self.get_next_state for _ in actions]
+        funcs_args = [[action["next_state"]] for action in actions]
 
         self.actions = hud.ButtonArray(
             texts,
@@ -314,7 +351,7 @@ class InGame(Phase):
             x=SCREEN_WIDTH // 2,
             y=100,
             spacing_x=170,
-            width=150,
+            # width=150,
             color=(255, 255, 255, 255),
             bg_color=(239, 68, 68),
             batch=self.batch,
@@ -387,23 +424,26 @@ class PauseMenu(Phase):
                 func=self.game.change_phase,
                 func_args=[MAIN_MENU]))
         self.clickables.append(
-            hud.Button('SAVE PROGRESS', # non functional yet
-                       font_name="Segoe UI Black",
-                       font_size=14,
-                       x=SCREEN_WIDTH // 2,
-                       y=SCREEN_HEIGHT - 400,
-                       color=(255, 255, 255, 255),
-                       bg_color=(239, 68, 68),
-                       batch=self.batch))
+            hud.Button(
+                'SAVE PROGRESS',
+                font_name="Segoe UI Black",
+                font_size=14,
+                x=SCREEN_WIDTH // 2,
+                y=SCREEN_HEIGHT - 400,
+                color=(255, 255, 255, 255),
+                bg_color=(239, 68, 68),
+                batch=self.batch,
+                func=self.game.save_state_phase))
         self.clickables.append(
-            hud.Button('SURRENDER', # non functional yet
-                       font_name="Segoe UI Black",
-                       font_size=14,
-                       x=SCREEN_WIDTH // 2,
-                       y=SCREEN_HEIGHT - 500,
-                       color=(255, 255, 255, 255),
-                       bg_color=(239, 68, 68),
-                       batch=self.batch))
+            hud.Button(
+                'SURRENDER',  # non functional yet
+                font_name="Segoe UI Black",
+                font_size=14,
+                x=SCREEN_WIDTH // 2,
+                y=SCREEN_HEIGHT - 500,
+                color=(255, 255, 255, 255),
+                bg_color=(239, 68, 68),
+                batch=self.batch))
         self.clickables.append(
             hud.Button('EXIT GAME',
                        font_name="Segoe UI Black",
