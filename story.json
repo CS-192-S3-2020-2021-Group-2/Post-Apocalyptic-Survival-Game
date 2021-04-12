@@ -5,7 +5,7 @@
             "prompt": "Hi this is a prompt. 3 choices. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed condimentum tortor id mauris volutpat ultrices. Nam blandit condimentum nisi nec ornare. Aliquam ut justo et nisl consequat finibus sed nec nibh.",
             "actions": [
                 {
-                    "name": "Name of option 1a",
+                    "name": "Name of option 1a. Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
                     "next_state": "Option 1a"
                 },
                 {
@@ -16,7 +16,8 @@
                     "name": "Name of option 1c",
                     "next_state": "Option 1c"
                 }
-            ]
+            ],
+            "background": "placeholder.png"
         },
         "Option 1a": {
             "prompt": "You chose option 1a. This is the next prompt. 2 choices.",
@@ -29,7 +30,8 @@
                     "name": "Name of option 2ab",
                     "next_state": "Option 2ab"
                 }
-            ]
+            ],
+            "background": "placeholder.png"
         },
         "Option 1b": {
             "prompt": "You chose option 1b. This is the next prompt. 2 choices.",

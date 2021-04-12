@@ -4,7 +4,6 @@ import pathlib
 import os
 
 # project modules
-import assets.assets
 import assets
 import hud
 
@@ -65,6 +64,10 @@ class Game(object):
         self.window.push_handlers(self.cur_phase.on_draw,
                                   self.cur_phase.on_key_press,
                                   self.cur_phase.on_mouse_press)
+
+    def main_menu(self):
+        self.phases[MAIN_MENU].reset()
+        self.change_phase(MAIN_MENU)
 
     def change_phase(self, phase):
         self.window.pop_handlers()
@@ -181,7 +184,7 @@ class MainMenu(Phase):
                        func=self.game.load_state_phase))
         quicksave_exist = self.game.slot_exists('0')
         self.clickables.append(
-            hud.Button('LOAD QUICKSAVE',
+            hud.Button('LOAD LAST SESSION',
                        font_name="Segoe UI Black",
                        font_size=14,
                        x=SCREEN_WIDTH // 2,
@@ -231,8 +234,7 @@ class SavedGames(Phase):
                 color=(0, 0, 0, 255),
                 bg_color=(255, 255, 255),
                 batch=self.batch,
-                func=self.game.change_phase,
-                func_args=[MAIN_MENU]))
+                func=self.game.main_menu))
         slot1_enable = force_enable or self.game.slot_exists('1')
         self.clickables.append(
             hud.Button('SLOT 1',
@@ -240,6 +242,7 @@ class SavedGames(Phase):
                        font_size=14,
                        x=SCREEN_WIDTH // 2,
                        y=SCREEN_HEIGHT - 200,
+                       width=300,
                        color=(255, 255, 255, 255),
                        bg_color=(239, 68, 68) if slot1_enable else
                        (254, 226, 226),
@@ -253,6 +256,7 @@ class SavedGames(Phase):
                        font_size=14,
                        x=SCREEN_WIDTH // 2,
                        y=SCREEN_HEIGHT - 300,
+                       width=300,
                        color=(255, 255, 255, 255),
                        bg_color=(239, 68, 68) if slot2_enable else
                        (254, 226, 226),
@@ -266,6 +270,7 @@ class SavedGames(Phase):
                        font_size=14,
                        x=SCREEN_WIDTH // 2,
                        y=SCREEN_HEIGHT - 400,
+                       width=300,
                        color=(255, 255, 255, 255),
                        bg_color=(239, 68, 68) if slot3_enable else
                        (254, 226, 226),
@@ -304,6 +309,8 @@ class InGame(Phase):
 
         self.prompt = None
         self.actions = None
+        self.background = None
+
 
         pyglet.text.Label('IN GAME',
                           color=(0, 0, 0, 255),
@@ -313,13 +320,14 @@ class InGame(Phase):
                           batch=self.batch)
 
         self.clickables.append(
-            hud.ImageButton(assets.assets.pause_icon,
+            hud.ImageButton(assets.pause_icon,
                             SCREEN_WIDTH - 50,
                             SCREEN_HEIGHT - 50,
                             batch=self.batch,
                             func=self.game.change_phase,
                             func_args=[PAUSE_MENU]))
 
+        self.update_background()
         self.show_prompt()
         self.show_actions()
 
@@ -332,15 +340,19 @@ class InGame(Phase):
 
     def hide_prompt(self):
         del self.prompt
+        self.prompt = None
 
     def show_actions(self):
-        if not self.actions:
-            self.hide_actions()
+        self.hide_actions()
 
-        actions = self.state.get('actions')
-        texts = [action["name"] for action in actions]
-        funcs = [self.get_next_state for _ in actions]
-        funcs_args = [[action["next_state"]] for action in actions]
+        action_list = self.state.get('actions')
+
+        if not action_list:
+            return
+
+        texts = [action["name"] for action in action_list]
+        funcs = [self.get_next_state for _ in action_list]
+        funcs_args = [[action["next_state"], True] for action in action_list]
 
         self.actions = hud.ButtonArray(
             texts,
@@ -348,35 +360,53 @@ class InGame(Phase):
             funcs_args=funcs_args,
             font_name="Segoe UI Black",
             font_size=14,
-            x=SCREEN_WIDTH // 2,
-            y=100,
-            spacing_x=170,
-            # width=150,
+            x=(SCREEN_WIDTH - 200) / len(texts) / 2 + 100,
+            y=130,
+            spacing_x=(SCREEN_WIDTH - 200) / len(texts) + 10,
+            width=(SCREEN_WIDTH - 200) / len(texts),
             color=(255, 255, 255, 255),
             bg_color=(239, 68, 68),
+            multiline=True,
             batch=self.batch,
         )
 
     def hide_actions(self):
         del self.actions
+        self.actions = None
 
-    def get_next_state(self, action):
+    def update_background(self):
+        del self.background
+        if not self.state.get('background'):
+            self.background = None
+            return
+
+        self.background = pyglet.sprite.Sprite(
+            assets.backgrounds[self.state['background']],
+            x = SCREEN_WIDTH / 2,
+            y = SCREEN_HEIGHT / 2)
+
+    def get_next_state(self, action, quicksave=False):
         next_state = self.story['states'].get(action)
         if next_state is None:
             raise ActionNotFound(action)
         self.state = next_state
+        self.update_background()
         self.show_prompt()
         self.show_actions()
+        if quicksave:
+            self.game.save_state()
 
     def on_draw(self):
         self.game.window.clear()
+        if self.background:
+            self.background.draw()
         self.batch.draw()
 
     def on_mouse_press(self, x, y, button, modifiers):
         for clickable in self.clickables:
             clickable.on_mouse_press(x, y, button, modifiers)
 
-        if self.actions is not None:
+        if self.actions:
             self.actions.on_mouse_press(x, y, button, modifiers)
 
 
@@ -394,7 +424,7 @@ class PauseMenu(Phase):
                           batch=self.batch)
 
         self.clickables.append(
-            hud.ImageButton(assets.assets.pause_icon,
+            hud.ImageButton(assets.pause_icon,
                             SCREEN_WIDTH - 50,
                             SCREEN_HEIGHT - 50,
                             batch=self.batch,
@@ -412,28 +442,25 @@ class PauseMenu(Phase):
                        func=self.game.change_phase,
                        func_args=[IN_GAME]))
         self.clickables.append(
-            hud.Button(
-                'MAIN MENU',  # Changed "New Game" to "Main Menu"
-                font_name="Segoe UI Black",
-                font_size=14,
-                x=SCREEN_WIDTH // 2,
-                y=SCREEN_HEIGHT - 300,
-                color=(255, 255, 255, 255),
-                bg_color=(239, 68, 68),
-                batch=self.batch,
-                func=self.game.change_phase,
-                func_args=[MAIN_MENU]))
+            hud.Button('MAIN MENU',
+                       font_name="Segoe UI Black",
+                       font_size=14,
+                       x=SCREEN_WIDTH // 2,
+                       y=SCREEN_HEIGHT - 300,
+                       color=(255, 255, 255, 255),
+                       bg_color=(239, 68, 68),
+                       batch=self.batch,
+                       func=self.game.main_menu))
         self.clickables.append(
-            hud.Button(
-                'SAVE PROGRESS',
-                font_name="Segoe UI Black",
-                font_size=14,
-                x=SCREEN_WIDTH // 2,
-                y=SCREEN_HEIGHT - 400,
-                color=(255, 255, 255, 255),
-                bg_color=(239, 68, 68),
-                batch=self.batch,
-                func=self.game.save_state_phase))
+            hud.Button('SAVE PROGRESS',
+                       font_name="Segoe UI Black",
+                       font_size=14,
+                       x=SCREEN_WIDTH // 2,
+                       y=SCREEN_HEIGHT - 400,
+                       color=(255, 255, 255, 255),
+                       bg_color=(239, 68, 68),
+                       batch=self.batch,
+                       func=self.game.save_state_phase))
         self.clickables.append(
             hud.Button(
                 'SURRENDER',  # non functional yet

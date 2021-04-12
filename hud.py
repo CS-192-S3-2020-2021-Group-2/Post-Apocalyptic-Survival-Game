@@ -45,28 +45,33 @@ class Button(object):
                                           group=self.background)
 
         self.items.append(self.bg)
-        self.label = pyglet.text.Label(text,
-                                       font_name=font_name,
-                                       font_size=font_size,
-                                       x=x,
-                                       y=y,
-                                       color=color,
-                                       anchor_x='center',
-                                       anchor_y='center',
-                                       align=align,
-                                       multiline=multiline,
-                                       batch=batch,
-                                       group=self.foreground)
+        self.label = pyglet.text.Label(
+            text,
+            font_name=font_name,
+            font_size=font_size,
+            x=x,
+            y=y,
+            color=color,
+            anchor_x='center',
+            anchor_y='center' if not multiline else 'top',
+            align=align,
+            multiline=multiline,
+            width=width,
+            batch=batch,
+            group=self.foreground)
         self.items.append(self.label)
 
         if width is None:
             width = self.label.content_width + 40
+        else:
+            self.label.width = width - 40
         if height is None:
             height = self.label.content_height + 30
+
         self.bg.width = width
-        self.bg.height = height
         self.bg.anchor_x = width / 2
-        self.bg.anchor_y = height / 2
+        self.bg.height = height
+        self.bg.anchor_y = (height / 2) if not multiline else (height - 15)
 
     def __del__(self):
         self.label.delete()
@@ -173,7 +178,7 @@ class Prompt(object):
                                       font_size=16,
                                       color=(0, 0, 0, 255),
                                       x=SCREEN_WIDTH // 2,
-                                      y=150,
+                                      y=170,
                                       width=SCREEN_WIDTH - 200,
                                       anchor_x='center',
                                       anchor_y='bottom',
