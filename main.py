@@ -104,7 +104,7 @@ class Game(object):
             return self.story['states'].get(save_file.readline())
 
     def quicksave(self, destination):
-        self.save_state('0')            # initiate save using slot 0
+        self.save_state('0')  # initiate save using slot 0
 
         # if player exits, quicksave
         if destination == PauseMenu.TO_EXIT:
@@ -225,6 +225,7 @@ class SavedGames(Phase):
         super().__init__(game)
         self.batch = pyglet.graphics.Batch()
         self.clickables = []  # list of clickable objects
+        self.mode = mode
 
         pyglet.text.Label('SAVED GAMES',
                           color=(0, 0, 0, 255),
@@ -233,7 +234,7 @@ class SavedGames(Phase):
                           y=SCREEN_HEIGHT - 100,
                           batch=self.batch)
 
-        function = self.game.load_game if mode == SavedGames.LOAD else self.game.save_state
+        function = self.game.load_game if mode == SavedGames.LOAD else self.save_game
         force_enable = mode == SavedGames.SAVE
 
         self.clickables.append(
@@ -247,48 +248,80 @@ class SavedGames(Phase):
                 bg_color=(255, 255, 255),
                 batch=self.batch,
                 func=self.game.main_menu))
-        slot1_enable = force_enable or self.game.slot_exists('1')
+
+        self.slot_labels = []
+
+        slot1_state = self.game.load_state('1')
+        slot1_enable = force_enable or slot1_state
         self.clickables.append(
             hud.Button('SLOT 1',
                        font_name="Segoe UI Black",
                        font_size=14,
-                       x=SCREEN_WIDTH // 2,
+                       x=SCREEN_WIDTH // 2 - 120,
                        y=SCREEN_HEIGHT - 200,
-                       width=300,
+                       width=200,
                        color=(255, 255, 255, 255),
                        bg_color=(239, 68, 68) if slot1_enable else
                        (254, 226, 226),
                        batch=self.batch,
                        func=function if slot1_enable else None,
                        func_args=['1']))
-        slot2_enable = force_enable or self.game.slot_exists('2')
+
+        self.slot_labels.append(
+            pyglet.text.Label(slot1_state.get('name') if slot1_state else '',
+                              batch=self.batch,
+                              x=SCREEN_WIDTH // 2 + 20,
+                              y=SCREEN_HEIGHT - 200,
+                              anchor_y='center',
+                              color=(0, 0, 0, 255)))
+        slot2_state = self.game.load_state('2')
+        slot2_enable = force_enable or slot2_state
         self.clickables.append(
             hud.Button('SLOT 2',
                        font_name="Segoe UI Black",
                        font_size=14,
-                       x=SCREEN_WIDTH // 2,
+                       x=SCREEN_WIDTH // 2 - 120,
                        y=SCREEN_HEIGHT - 300,
-                       width=300,
+                       width=200,
                        color=(255, 255, 255, 255),
                        bg_color=(239, 68, 68) if slot2_enable else
                        (254, 226, 226),
                        batch=self.batch,
                        func=function if slot2_enable else None,
                        func_args=['2']))
-        slot3_enable = force_enable or self.game.slot_exists('3')
+        self.slot_labels.append(
+            pyglet.text.Label(slot2_state.get('name') if slot2_state else '',
+                              batch=self.batch,
+                              x=SCREEN_WIDTH // 2 + 20,
+                              y=SCREEN_HEIGHT - 300,
+                              anchor_y='center',
+                              color=(0, 0, 0, 255)))
+        slot3_state = self.game.load_state('3')
+        slot3_enable = force_enable or slot3_state
         self.clickables.append(
             hud.Button('SLOT 3',
                        font_name="Segoe UI Black",
                        font_size=14,
-                       x=SCREEN_WIDTH // 2,
+                       x=SCREEN_WIDTH // 2 - 120,
                        y=SCREEN_HEIGHT - 400,
-                       width=300,
+                       width=200,
                        color=(255, 255, 255, 255),
                        bg_color=(239, 68, 68) if slot3_enable else
                        (254, 226, 226),
                        batch=self.batch,
                        func=function if slot3_enable else None,
                        func_args=['3']))
+        self.slot_labels.append(
+            pyglet.text.Label(slot3_state.get('name') if slot3_state else '',
+                              batch=self.batch,
+                              x=SCREEN_WIDTH // 2 + 20,
+                              y=SCREEN_HEIGHT - 400,
+                              anchor_y='center',
+                              color=(0, 0, 0, 255)))
+
+    def save_game(self, name):
+        self.game.save_state(name)
+        self.refresh()
 
     def on_draw(self):
         self.game.window.clear()
@@ -298,6 +331,10 @@ class SavedGames(Phase):
         for clickable in self.clickables:
             clickable.on_mouse_press(x, y, button, modifiers)
 
+    def refresh(self):
+        for index, label in enumerate(self.slot_labels):
+            state = self.game.load_state(str(index + 1))
+            label.text = state.get('name') if state else ''
 
 class ActionNotFound(Exception):
     def __init__(self, action):
@@ -322,7 +359,6 @@ class InGame(Phase):
         self.prompt = None
         self.actions = None
         self.background = None
-
 
         pyglet.text.Label('IN GAME',
                           color=(0, 0, 0, 255),
@@ -491,8 +527,9 @@ class PauseMenu(Phase):
                        bg_color=(239, 68, 68),
                        batch=self.batch,
                        func=self.game.quicksave,
-                       func_args=[PauseMenu.TO_EXIT])
-        )  # BUG: produces 'error in sys.excepthook'
+                       func_args=[
+                           PauseMenu.TO_EXIT
+                       ]))  # BUG: produces 'error in sys.excepthook'
 
     def on_draw(self):
         self.game.window.clear()
