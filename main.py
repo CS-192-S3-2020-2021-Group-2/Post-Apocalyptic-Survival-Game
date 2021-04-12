@@ -361,7 +361,7 @@ class InGame(Phase):
 
         texts = [action["name"] for action in action_list]
         funcs = [self.get_next_state for _ in action_list]
-        funcs_args = [[action["next_state"], True] for action in action_list]
+        funcs_args = [[action["next_state"]] for action in action_list]
 
         self.actions = hud.ButtonArray(
             texts,
@@ -394,7 +394,7 @@ class InGame(Phase):
             x=SCREEN_WIDTH / 2,
             y=SCREEN_HEIGHT / 2)
 
-    def get_next_state(self, action, quicksave=False):
+    def get_next_state(self, action):
         next_state = self.story['states'].get(action)
         if next_state is None:
             raise ActionNotFound(action)
@@ -402,8 +402,6 @@ class InGame(Phase):
         self.update_background()
         self.show_prompt()
         self.show_actions()
-        if quicksave:
-            self.game.save_state()
 
     def on_draw(self):
         self.game.window.clear()
