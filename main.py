@@ -332,11 +332,8 @@ class InGame(Phase):
         self.show_actions()
 
     def show_prompt(self):
-        if not self.prompt:
-            self.prompt = hud.Prompt(self.state.get('prompt'),
-                                     batch=self.batch)
-        else:
-            self.prompt.update(self.state.get('prompt'))
+        self.hide_prompt()
+        self.prompt = hud.Prompt(self.state.get('prompt'), batch=self.batch)
 
     def hide_prompt(self):
         del self.prompt
@@ -382,8 +379,8 @@ class InGame(Phase):
 
         self.background = pyglet.sprite.Sprite(
             assets.backgrounds[self.state['background']],
-            x = SCREEN_WIDTH / 2,
-            y = SCREEN_HEIGHT / 2)
+            x=SCREEN_WIDTH / 2,
+            y=SCREEN_HEIGHT / 2)
 
     def get_next_state(self, action, quicksave=False):
         next_state = self.story['states'].get(action)

@@ -44,7 +44,8 @@
                     "name": "Name of option 2bb",
                     "next_state": "Option 2bb"
                 }
-            ]
+            ],
+            "background": "placeholder2.png"
         },
         "Option 1c": {
             "prompt": "You chose option 1c. This is the next prompt. 2 choices.",
@@ -57,7 +58,8 @@
                     "name": "Name of option 2cb",
                     "next_state": "Option 2cb"
                 }
-            ]
+            ],
+            "background": "placeholder2.png"
         },
         "Option 2aa": {
             "prompt": "Ending 3aa",

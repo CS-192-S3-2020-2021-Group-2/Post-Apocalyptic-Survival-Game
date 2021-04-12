@@ -78,7 +78,7 @@ class Button(object):
         self.bg.delete()
 
     def on_mouse_press(self, x, y, button, modifiers):
-        if self.func and self.bg.x - self.bg.width / 2 <= x <= self.bg.x + self.bg.width / 2 and self.bg.y - self.bg.height / 2 <= y <= self.bg.y + self.bg.height / 2:
+        if self.func and self.bg.x - self.bg.anchor_x <= x <= self.bg.x + (self.bg.width - self.bg.anchor_x) and self.bg.y - self.bg.anchor_y <= y <= self.bg.y + (self.bg.height - self.bg.anchor_y):
             self.func(*self.func_args, **self.func_kargs)
 
 
