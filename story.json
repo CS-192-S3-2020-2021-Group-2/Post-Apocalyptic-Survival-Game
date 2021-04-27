@@ -2,88 +2,288 @@
     "id": "test case",
     "states": {
         "entry": {
-            "prompt": "Hi this is a prompt. 3 choices. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed condimentum tortor id mauris volutpat ultrices. Nam blandit condimentum nisi nec ornare. Aliquam ut justo et nisl consequat finibus sed nec nibh.",
+            "prompt": "You open your eyes and sat up. It feels like you've been out for quite some time. Your head hurts a bit. You put your hand on your head and feel a bandage wrapped around it. You look around and notice that you're inside an abandoned building. You see no one else but that man in that corner. \n\nHe seems restless... He noticed you're up!",
             "actions": [
                 {
-                    "name": "Name of option 1a. Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-                    "next_state": "Option 1a"
-                },
-                {
-                    "name": "Name of option 1b",
-                    "next_state": "Option 1b"
-                },
-                {
-                    "name": "Name of option 1c",
-                    "next_state": "Option 1c"
+                    "name": "Continue",
+                    "next_state": "State 1"
                 }
             ],
             "background": "placeholder.png"
         },
-        "Option 1a": {
-            "prompt": "You chose option 1a. This is the next prompt. 2 choices.",
+        "State 1": {
+            "prompt": "Man: \"Michael! You finally woke up. How are you feeling?\"",
             "actions": [
                 {
-                    "name": "Name of option 2aa",
-                    "next_state": "Option 2aa"
+                    "name": "Ask what's going on",
+                    "next_state": "State 2"
                 },
                 {
-                    "name": "Name of option 2ab",
-                    "next_state": "Option 2ab"
+                    "name": "Ask his name",
+                    "next_state": "State 3"
                 }
             ],
             "background": "placeholder.png"
         },
-        "Option 1b": {
-            "prompt": "You chose option 1b. This is the next prompt. 2 choices.",
+        "State 2": {
+            "prompt": "You: \"Good, I guess... W-where am I? Why am I lying on the floor?\"",
             "actions": [
                 {
-                    "name": "Name of option 2ba",
-                    "next_state": "Option 2ba"
-                },
+                    "name": "Continue",
+                    "next_state": "State 4"
+                }
+            ],
+            "background": "placeholder.png"
+        },
+        "State 3": {
+            "prompt": "You: \"Who are you?\"",
+            "actions": [
                 {
-                    "name": "Name of option 2bb",
-                    "next_state": "Option 2bb"
+                    "name": "Continue",
+                    "next_state": "State 5"
                 }
             ],
             "background": "placeholder2.png"
         },
-        "Option 1c": {
-            "prompt": "You chose option 1c. This is the next prompt. 2 choices.",
+        "State 4": {
+            "prompt": "Man: \"You've been asleep for a good couple of days after hitting your head.\"",
             "actions": [
                 {
-                    "name": "Name of option 2ca",
-                    "next_state": "Option 2ca"
+                    "name": "Confirm who he is",
+                    "next_state": "State 6"
                 },
                 {
-                    "name": "Name of option 2cb",
-                    "next_state": "Option 2cb"
+                    "name": "Ask how this happened",
+                    "next_state": "State 7"
+                }
+            ], 
+            "background": "placeholder2.png"
+        },
+        "State 5": {
+            "prompt": "Man: \"Seems like you're still a bit shaken up from the incident. I'm Henry. We used to work together before things went to shit.\"",
+            "actions": [
+                {
+                    "name": "Ask what he meant by this",
+                    "next_state": "State 8"
+                },
+                {
+                    "name": "Ask how you ended up together",
+                    "next_state": "State 9"
                 }
             ],
             "background": "placeholder2.png"
         },
-        "Option 2aa": {
-            "prompt": "Ending 3aa",
-            "actions": []
+        "State 6": {
+            "prompt": "You: \"I see. That explains why my head hurts. Henry, right?\"\n\nHe nods.",
+            "actions": [
+                {
+                    "name": "Continue",
+                    "next_state": "State 10"
+                }
+            ], 
+            "background": "placeholder2.png"
         },
-        "Option 2ab": {
-            "prompt": "Ending 3ab",
-            "actions": []
+        "State 7": {
+            "prompt": "You: \"I don't remember much... What exactly happened? Henry, right?\"\n\nHe nods.",
+            "actions": [
+                {
+                    "name": "Continue",
+                    "next_state": "State 10"
+                }
+            ], 
+            "background": "placeholder2.png"
         },
-        "Option 2ba": {
-            "prompt": "Ending 3ba",
-            "actions": []
+        "State 8": {
+            "prompt": "You: \"What do you mean? What happened?\"",
+            "actions": [
+                {
+                    "name": "Continue",
+                    "next_state": "State 10"
+                }
+            ], 
+            "background": "placeholder2.png"
         },
-        "Option 2bb": {
-            "prompt": "Ending 3bb",
-            "actions": []
+        "State 9": {
+            "prompt": "You: \"Right, Henry! Look, don't take this the wrong way, but what are we doing here?\"",
+            "actions": [
+                {
+                    "name": "Continue",
+                    "next_state": "State 10"
+                }
+            ], 
+            "background": "placeholder2.png"
         },
-        "Option 2ca": {
-            "prompt": "Ending 3ca",
-            "actions": []
+        "State 10": {
+            "prompt": "Henry: \"You must have hurt your head real bad. Our town was overrun by zombies. Turns out the government tried to keep this hidden from the public for a whole year until they weren't able to contain it. Our town was where they set up their facility so we were the first to get hit. You really don't remember all this?\"",
+            "actions": [
+                {
+                    "name": "You don't",
+                    "next_state": "State 11"
+                },
+                {
+                    "name": "You remember differently",
+                    "next_state": "State 12"
+                }
+            ], 
+            "background": "placeholder2.png"
         },
-        "Option 2cb": {
-            "prompt": "Ending 3cb",
-            "actions": []
+        "State 11": {
+            "prompt": "You: \"I'm trying, but I really don't. All I remember is being at home with my family. I hope they're safe...\"",
+            "actions": [
+                {
+                    "name": "Continue",
+                    "next_state": "State 13"
+                }
+            ], 
+            "background": "placeholder2.png"
+        },
+        "State 12": {
+            "prompt": "You: \"This isn't what I remember at all. I don't recall encountering any zombies. I was at home with my family.\"",
+            "actions": [
+                {
+                    "name": "Continue",
+                    "next_state": "State 14"
+                }
+            ], 
+            "background": "placeholder2.png"
+        },
+        "State 13": {
+            "prompt": "Henry: \"I know. Even I can't believe it until now. It just doesn't seem possible. But trust me, you and I were the only ones to survive.\"",
+            "actions": [
+                {
+                    "name": "Ask about your family",
+                    "next_state": "State 15"
+                },
+                {
+                    "name": "Look for your phone",
+                    "next_state": "State 16"
+                }
+            ], 
+            "background": "placeholder2.png"
+        },
+        "State 14": {
+            "prompt": "Henry: \"That can't be! You just don't remember because you hit your head. There were zombies everywhere! That's why we had to evacuate the town. That's why we're here!\"\n\nYou can see sweat dripping down from Henry's forehead with his eyes widened. You can tell there's something off about him.",
+            "actions": [
+                {
+                    "name": "Continue sharing what you remember",
+                    "next_state": "State 17"
+                },
+                {
+                    "name": "Lay low and just agree with him",
+                    "next_state": "State 18"
+                }
+            ], 
+            "background": "placeholder2.png"
+        },
+        "State 15": {
+            "prompt": "You: \"What about my family? They must have been able to evacuate too, right? Right, Henry?\"",
+            "actions": [
+                {
+                    "name": "Continue",
+                    "next_state": "State 19"
+                }
+            ], 
+            "background": "placeholder2.png"
+        },
+        "State 16": {
+            "prompt": "You: \"This can't be happening. I have to call my family.\"\n\nYou search your pockets for your phone but it isn't there.\n\nYou: \"By any chance, have you seen my phone?\"",
+            "actions": [
+                {
+                    "name": "Continue",
+                    "next_state": "State 20"
+                }
+            ], 
+            "background": "placeholder2.png"
+        },
+        "State 17": {
+            "prompt": "You: \"No, I'm certain about this! I was at home. My family and I were in bed already, then I woke up because someone was violently knocking at the door. They wouldn't stop until I answered. I remember seeing a man at our doorstep, with a crowbar in his hand... \n\nWait, it was... you?\"",
+            "actions": [
+                {
+                    "name": "Continue",
+                    "next_state": "Defeat"
+                }
+            ], 
+            "background": "placeholder2.png"
+        },
+        "State 18": {
+            "prompt": "You: \"You're right. It must have been just a dream... So what do we do now?\"",
+            "actions": [
+                {
+                    "name": "Continue",
+                    "next_state": "State 21"
+                }
+            ], 
+            "background": "placeholder2.png"
+        },
+        "State 19": {
+            "prompt": "Henry: \"I'm afraid not. The facility was next to your street, so I rushed to your place as soon as I heard about what was happening. When I got to your place, you were the only one I saw. You were unconscious and seemed to had fallen off the staircase. I carried you into my truck then left. I didn't have time to look for your family.\"",
+            "actions": [
+                {
+                    "name": "Look for your phone",
+                    "next_state": "State 16"
+                },
+                {
+                    "name": "Sit in silence",
+                    "next_state": "State 22"
+                }
+            ], 
+            "background": "placeholder2.png"
+        },
+        "State 20": {
+            "prompt": "Henry: \"I only took you as you were. You must have left it at home. Anyway, we have to get going. The safehouse is just a few miles from here.\"",
+            "actions": [
+                {
+                    "name": "Join him",
+                    "next_state": "State 23"
+                }
+            ], 
+            "background": "placeholder2.png"
+        },
+        "State 21": {
+            "prompt": "Henry: \"We have to get going. There is a safehouse just a few miles out. That's where we're headed.\"",
+            "actions": [
+                {
+                    "name": "Join him",
+                    "next_state": "State 23"
+                }
+            ], 
+            "background": "placeholder2.png"
+        },
+        "State 22": {
+            "prompt": "You can't believe you just lost your family. You break down and start crying, but you try to compose yourself in front of your old friend.\n\nYou: \"By any chance, do you know if I had my phone on me?\"",
+            "actions": [
+                {
+                    "name": "Continue",
+                    "next_state": "State 20"
+                }
+            ], 
+            "background": "placeholder2.png"
+        },
+        "State 23": {
+            "prompt": "You help Henry pack up then leave the building. You get inside the truck and he drives westward.",
+            "actions": [
+                {
+                    "name": "Continue",
+                    "next_state": "Success"
+                }
+            ], 
+            "background": "placeholder2.png"
+        },
+
+        "Defeat A": {
+            "prompt": "DEFEAT:\n\nHenry realized that you remember what truly happened. He decided that keeping you alive is no longer viable if he wanted to get away with what he's done. You were still injured so you couldn't do much about it.",
+            "actions": [], 
+            "background": "placeholder2.png"
+        },
+        "Defeat B": {
+            "prompt": "DEFEAT:\n\n",
+            "actions": [], 
+            "background": "placeholder2.png"
+        },
+        "Success": {
+            "prompt": "SUCCESS:\n\nYou were able to escape from Henry's captivity.",
+            "actions": [], 
+            "background": "placeholder2.png"
         }
     }
 }
