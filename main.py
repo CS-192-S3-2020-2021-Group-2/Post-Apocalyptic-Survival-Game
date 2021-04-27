@@ -113,6 +113,10 @@ class Game(object):
         # if player returns to menu, quicksave
         self.main_menu()
 
+    def surrender(self):
+        self.phases[IN_GAME] = InGame(self, "surrender")
+        self.change_phase(IN_GAME)
+
     def slot_exists(self, name='0'):
         path = os.path.join(SAVE_DIR, name)
         return os.path.exists(path)
@@ -349,16 +353,19 @@ class InGame(Phase):
         self.batch = pyglet.graphics.Batch()
         self.clickables = []  # list of clickable objects
         self.story = self.game.story
-
-        # current progress of the user in the story
-        if not state:
-            self.state = self.story['states'].get('entry')
-        else:
-            self.state = state
-
+        
         self.prompt = None
         self.actions = None
         self.background = None
+
+        # current progress of the user in the story
+        if state == 'surrender':
+            self.surrender()
+            return
+        elif not state:
+            self.state = self.story['states'].get('entry')
+        else:
+            self.state = state        
 
         pyglet.text.Label('IN GAME',
                           color=(0, 0, 0, 255),
@@ -378,6 +385,26 @@ class InGame(Phase):
         self.update_background()
         self.show_prompt()
         self.show_actions()
+
+    def surrender(self):
+        pyglet.text.Label('GAME OVER',
+                          color=(255, 0, 0, 255),
+                          anchor_x='center',
+                          x=SCREEN_WIDTH // 2,
+                          y=SCREEN_HEIGHT - 100,
+                          batch=self.batch)
+        self.prompt = hud.Prompt("You have surrendered...", batch=self.batch)
+        self.action = 'Back to Main Menu'
+        self.clickables.append(
+            hud.Button(self.action,
+                       font_name="Segoe UI Black",
+                       font_size=14,
+                       x=SCREEN_WIDTH // 2,
+                       y=130,
+                       color=(255, 255, 255, 255),
+                       bg_color=(239, 68, 68),
+                       batch=self.batch,
+                       func=self.game.main_menu))
 
     def show_prompt(self):
         self.hide_prompt()
@@ -508,15 +535,15 @@ class PauseMenu(Phase):
                        batch=self.batch,
                        func=self.game.save_state_phase))
         self.clickables.append(
-            hud.Button(
-                'SURRENDER',  # non functional yet
-                font_name="Segoe UI Black",
-                font_size=14,
-                x=SCREEN_WIDTH // 2,
-                y=SCREEN_HEIGHT - 500,
-                color=(255, 255, 255, 255),
-                bg_color=(239, 68, 68),
-                batch=self.batch))
+            hud.Button('SURRENDER',
+                        font_name="Segoe UI Black",
+                        font_size=14,
+                        x=SCREEN_WIDTH // 2,
+                        y=SCREEN_HEIGHT - 500,
+                        color=(255, 255, 255, 255),
+                        bg_color=(239, 68, 68),
+                        batch=self.batch,
+                        func=self.game.surrender))
         self.clickables.append(
             hud.Button('EXIT GAME',
                        font_name="Segoe UI Black",
