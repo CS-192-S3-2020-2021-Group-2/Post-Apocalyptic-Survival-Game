@@ -511,6 +511,18 @@ class EndGame(Phase):
                 x=SCREEN_WIDTH / 2,
                 y=SCREEN_HEIGHT / 2)
 
+        self.clickables.append(
+            hud.Button('MAIN MENU',
+                       font_name="Segoe UI Black",
+                       font_size=14,
+                       x=SCREEN_WIDTH // 2,
+                       y=100,
+                       color=(255, 255, 255, 255),
+                       bg_color=(239, 68, 68),
+                       batch=self.batch,
+                       func=self.game.quicksave,
+                       func_args=[PauseMenu.TO_MENU]))
+
     def on_draw(self):
         self.game.window.clear()
         if self.background:
