@@ -200,7 +200,7 @@
             "actions": [
                 {
                     "name": "Continue",
-                    "next_state": "Defeat"
+                    "next_state": "Defeat A"
                 }
             ],
             "background": "placeholder2.png"
