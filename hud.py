@@ -191,3 +191,10 @@ class Prompt(object):
 
     def update(self, text):
         self.text.text = text
+
+class Alert(object):
+    def __init__(self, batch=None, group=None):
+        pass
+
+    def alert(self, text):
+        pass

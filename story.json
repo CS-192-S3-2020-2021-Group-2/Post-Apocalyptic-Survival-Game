@@ -56,7 +56,7 @@
                     "name": "Ask how this happened",
                     "next_state": "State 7"
                 }
-            ], 
+            ],
             "background": "placeholder2.png"
         },
         "State 5": {
@@ -80,7 +80,7 @@
                     "name": "Continue",
                     "next_state": "State 10"
                 }
-            ], 
+            ],
             "background": "placeholder2.png"
         },
         "State 7": {
@@ -90,7 +90,7 @@
                     "name": "Continue",
                     "next_state": "State 10"
                 }
-            ], 
+            ],
             "background": "placeholder2.png"
         },
         "State 8": {
@@ -100,7 +100,7 @@
                     "name": "Continue",
                     "next_state": "State 10"
                 }
-            ], 
+            ],
             "background": "placeholder2.png"
         },
         "State 9": {
@@ -110,7 +110,7 @@
                     "name": "Continue",
                     "next_state": "State 10"
                 }
-            ], 
+            ],
             "background": "placeholder2.png"
         },
         "State 10": {
@@ -124,7 +124,7 @@
                     "name": "You remember differently",
                     "next_state": "State 12"
                 }
-            ], 
+            ],
             "background": "placeholder2.png"
         },
         "State 11": {
@@ -134,7 +134,7 @@
                     "name": "Continue",
                     "next_state": "State 13"
                 }
-            ], 
+            ],
             "background": "placeholder2.png"
         },
         "State 12": {
@@ -144,7 +144,7 @@
                     "name": "Continue",
                     "next_state": "State 14"
                 }
-            ], 
+            ],
             "background": "placeholder2.png"
         },
         "State 13": {
@@ -158,7 +158,7 @@
                     "name": "Look for your phone",
                     "next_state": "State 16"
                 }
-            ], 
+            ],
             "background": "placeholder2.png"
         },
         "State 14": {
@@ -172,7 +172,7 @@
                     "name": "Lay low and just agree with him",
                     "next_state": "State 18"
                 }
-            ], 
+            ],
             "background": "placeholder2.png"
         },
         "State 15": {
@@ -182,7 +182,7 @@
                     "name": "Continue",
                     "next_state": "State 19"
                 }
-            ], 
+            ],
             "background": "placeholder2.png"
         },
         "State 16": {
@@ -192,7 +192,7 @@
                     "name": "Continue",
                     "next_state": "State 20"
                 }
-            ], 
+            ],
             "background": "placeholder2.png"
         },
         "State 17": {
@@ -202,7 +202,7 @@
                     "name": "Continue",
                     "next_state": "Defeat"
                 }
-            ], 
+            ],
             "background": "placeholder2.png"
         },
         "State 18": {
@@ -212,7 +212,7 @@
                     "name": "Continue",
                     "next_state": "State 21"
                 }
-            ], 
+            ],
             "background": "placeholder2.png"
         },
         "State 19": {
@@ -226,7 +226,7 @@
                     "name": "Sit in silence",
                     "next_state": "State 22"
                 }
-            ], 
+            ],
             "background": "placeholder2.png"
         },
         "State 20": {
@@ -236,7 +236,7 @@
                     "name": "Join him",
                     "next_state": "State 23"
                 }
-            ], 
+            ],
             "background": "placeholder2.png"
         },
         "State 21": {
@@ -246,7 +246,7 @@
                     "name": "Join him",
                     "next_state": "State 23"
                 }
-            ], 
+            ],
             "background": "placeholder2.png"
         },
         "State 22": {
@@ -256,7 +256,7 @@
                     "name": "Continue",
                     "next_state": "State 20"
                 }
-            ], 
+            ],
             "background": "placeholder2.png"
         },
         "State 23": {
@@ -266,23 +266,25 @@
                     "name": "Continue",
                     "next_state": "Success"
                 }
-            ], 
+            ],
             "background": "placeholder2.png"
         },
-
         "Defeat A": {
-            "prompt": "DEFEAT:\n\nHenry realized that you remember what truly happened. He decided that keeping you alive is no longer viable if he wanted to get away with what he's done. You were still injured so you couldn't do much about it.",
-            "actions": [], 
+            "endgame": true,
+            "heading": "DEFEAT",
+            "desc": "Henry realized that you remember what truly happened. He decided that keeping you alive is no longer viable if he wanted to get away with what he's done. You were still injured so you couldn't do much about it.",
             "background": "placeholder2.png"
         },
         "Defeat B": {
-            "prompt": "DEFEAT:\n\n",
-            "actions": [], 
+            "endgame": true,
+            "heading": "DEFEAT",
+            "desc": "defeat 2",
             "background": "placeholder2.png"
         },
         "Success": {
-            "prompt": "SUCCESS:\n\nYou were able to escape from Henry's captivity.",
-            "actions": [], 
+            "endgame": true,
+            "heading": "SUCCESS",
+            "desc": "You were able to escape from Henry's captivity.",
             "background": "placeholder2.png"
         }
     }

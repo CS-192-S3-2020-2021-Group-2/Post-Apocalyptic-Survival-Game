@@ -12,7 +12,7 @@ import pyglet
 
 # constants
 SCREEN_WIDTH, SCREEN_HEIGHT = 1280, 720
-MAIN_MENU, IN_GAME, PAUSE_MENU, SAVED_GAMES = range(4)
+MAIN_MENU, IN_GAME, PAUSE_MENU, SAVED_GAMES, END_GAME = range(5)
 STORY_FILENAME = 'story.json'
 SAVE_DIR = 'saves'
 
@@ -29,7 +29,7 @@ class Game(object):
         self.phases = {
             MAIN_MENU: MainMenu(self),
             IN_GAME: InGame(self),
-            PAUSE_MENU: PauseMenu(self)
+            PAUSE_MENU: PauseMenu(self),
         }
 
         # set current phase to main menu
@@ -69,6 +69,10 @@ class Game(object):
         # self.phases[MAIN_MENU].reset()
         self.phases[MAIN_MENU] = MainMenu(self)
         self.change_phase(MAIN_MENU)
+
+    def end_game(self, heading, desc, background=None):
+        self.phases[END_GAME] = EndGame(self, heading, desc, background)
+        self.change_phase(END_GAME)
 
     def change_phase(self, phase):
         self.window.pop_handlers()
@@ -340,6 +344,7 @@ class SavedGames(Phase):
             state = self.game.load_state(str(index + 1))
             label.text = state.get('name') if state else ''
 
+
 class ActionNotFound(Exception):
     def __init__(self, action):
         self.action = action
@@ -353,7 +358,7 @@ class InGame(Phase):
         self.batch = pyglet.graphics.Batch()
         self.clickables = []  # list of clickable objects
         self.story = self.game.story
-        
+
         self.prompt = None
         self.actions = None
         self.background = None
@@ -365,7 +370,7 @@ class InGame(Phase):
         elif not state:
             self.state = self.story['states'].get('entry')
         else:
-            self.state = state        
+            self.state = state
 
         pyglet.text.Label('IN GAME',
                           color=(0, 0, 0, 255),
@@ -461,6 +466,10 @@ class InGame(Phase):
         next_state = self.story['states'].get(action)
         if next_state is None:
             raise ActionNotFound(action)
+        if next_state.get('endgame'):
+            self.game.end_game(next_state['heading'], next_state['desc'],
+                               next_state.get('background'))
+            return
         self.state = next_state
         self.update_background()
         self.show_prompt()
@@ -478,6 +487,39 @@ class InGame(Phase):
 
         if self.actions:
             self.actions.on_mouse_press(x, y, button, modifiers)
+
+
+class EndGame(Phase):
+    def __init__(self, game, heading, desc, background=None):
+        super().__init__(game)
+        self.batch = pyglet.graphics.Batch()
+        self.clickables = []  # list of clickable objects
+
+        self.heading = pyglet.text.Label(heading,
+                                         font_name="Press Start",
+                                         font_size=22,
+                                         color=(0, 0, 0, 255),
+                                         anchor_x='center',
+                                         x=SCREEN_WIDTH // 2,
+                                         y=SCREEN_HEIGHT - 200,
+                                         batch=self.batch)
+        self.prompt = hud.Prompt(desc, batch=self.batch)
+
+        if background:
+            self.background = pyglet.sprite.Sprite(
+                assets.backgrounds[background],
+                x=SCREEN_WIDTH / 2,
+                y=SCREEN_HEIGHT / 2)
+
+    def on_draw(self):
+        self.game.window.clear()
+        if self.background:
+            self.background.draw()
+        self.batch.draw()
+
+    def on_mouse_press(self, x, y, button, modifiers):
+        for clickable in self.clickables:
+            clickable.on_mouse_press(x, y, button, modifiers)
 
 
 class PauseMenu(Phase):
@@ -536,14 +578,14 @@ class PauseMenu(Phase):
                        func=self.game.save_state_phase))
         self.clickables.append(
             hud.Button('SURRENDER',
-                        font_name="Segoe UI Black",
-                        font_size=14,
-                        x=SCREEN_WIDTH // 2,
-                        y=SCREEN_HEIGHT - 500,
-                        color=(255, 255, 255, 255),
-                        bg_color=(239, 68, 68),
-                        batch=self.batch,
-                        func=self.game.surrender))
+                       font_name="Segoe UI Black",
+                       font_size=14,
+                       x=SCREEN_WIDTH // 2,
+                       y=SCREEN_HEIGHT - 500,
+                       color=(255, 255, 255, 255),
+                       bg_color=(239, 68, 68),
+                       batch=self.batch,
+                       func=self.game.surrender))
         self.clickables.append(
             hud.Button('EXIT GAME',
                        font_name="Segoe UI Black",
