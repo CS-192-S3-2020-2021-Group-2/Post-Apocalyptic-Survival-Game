@@ -9,7 +9,7 @@
                     "next_state": "State 1"
                 }
             ],
-            "background": "placeholder.png"
+            "background": "abandoned_house.jpg"
         },
         "State 1": {
             "prompt": "Man: \"Michael! You finally woke up. How are you feeling?\"",
@@ -23,7 +23,7 @@
                     "next_state": "State 3"
                 }
             ],
-            "background": "placeholder.png"
+            "background": "abandoned_house.jpg"
         },
         "State 2": {
             "prompt": "You: \"Good, I guess... W-where am I? Why am I lying on the floor?\"",
@@ -33,7 +33,7 @@
                     "next_state": "State 4"
                 }
             ],
-            "background": "placeholder.png"
+            "background": "abandoned_house.jpg"
         },
         "State 3": {
             "prompt": "You: \"Who are you?\"",
@@ -43,7 +43,7 @@
                     "next_state": "State 5"
                 }
             ],
-            "background": "placeholder2.png"
+            "background": "abandoned_house.jpg"
         },
         "State 4": {
             "prompt": "Man: \"You've been asleep for a good couple of days after hitting your head.\"",
@@ -57,7 +57,7 @@
                     "next_state": "State 7"
                 }
             ],
-            "background": "placeholder2.png"
+            "background": "abandoned_house.jpg"
         },
         "State 5": {
             "prompt": "Man: \"Seems like you're still a bit shaken up from the incident. I'm Henry. We used to work together before things went to shit.\"",
@@ -71,7 +71,7 @@
                     "next_state": "State 9"
                 }
             ],
-            "background": "placeholder2.png"
+            "background": "abandoned_house.jpg"
         },
         "State 6": {
             "prompt": "You: \"I see. That explains why my head hurts. Henry, right?\"\n\nHe nods.",
@@ -81,7 +81,7 @@
                     "next_state": "State 10"
                 }
             ],
-            "background": "placeholder2.png"
+            "background": "abandoned_house.jpg"
         },
         "State 7": {
             "prompt": "You: \"I don't remember much... What exactly happened? Henry, right?\"\n\nHe nods.",
@@ -91,7 +91,7 @@
                     "next_state": "State 10"
                 }
             ],
-            "background": "placeholder2.png"
+            "background": "abandoned_house.jpg"
         },
         "State 8": {
             "prompt": "You: \"What do you mean? What happened?\"",
@@ -101,7 +101,7 @@
                     "next_state": "State 10"
                 }
             ],
-            "background": "placeholder2.png"
+            "background": "abandoned_house.jpg"
         },
         "State 9": {
             "prompt": "You: \"Right, Henry! Look, don't take this the wrong way, but what are we doing here?\"",
@@ -111,7 +111,7 @@
                     "next_state": "State 10"
                 }
             ],
-            "background": "placeholder2.png"
+            "background": "abandoned_house.jpg"
         },
         "State 10": {
             "prompt": "Henry: \"You must have hurt your head real bad. Our town was overrun by zombies. Turns out the government tried to keep this hidden from the public for a whole year until they weren't able to contain it. Our town was where they set up their facility so we were the first to get hit. You really don't remember all this?\"",
@@ -125,7 +125,7 @@
                     "next_state": "State 12"
                 }
             ],
-            "background": "placeholder2.png"
+            "background": "abandoned_house.jpg"
         },
         "State 11": {
             "prompt": "You: \"I'm trying, but I really don't. All I remember is being at home with my family. I hope they're safe...\"",
@@ -135,7 +135,7 @@
                     "next_state": "State 13"
                 }
             ],
-            "background": "placeholder2.png"
+            "background": "abandoned_house.jpg"
         },
         "State 12": {
             "prompt": "You: \"This isn't what I remember at all. I don't recall encountering any zombies. I was at home with my family.\"",
@@ -145,7 +145,7 @@
                     "next_state": "State 14"
                 }
             ],
-            "background": "placeholder2.png"
+            "background": "abandoned_house.jpg"
         },
         "State 13": {
             "prompt": "Henry: \"I know. Even I can't believe it until now. It just doesn't seem possible. But trust me, you and I were the only ones to survive.\"",
@@ -159,7 +159,7 @@
                     "next_state": "State 16"
                 }
             ],
-            "background": "placeholder2.png"
+            "background": "abandoned_house.jpg"
         },
         "State 14": {
             "prompt": "Henry: \"That can't be! You just don't remember because you hit your head. There were zombies everywhere! That's why we had to evacuate the town. That's why we're here!\"\n\nYou can see sweat dripping down from Henry's forehead with his eyes widened. You can tell there's something off about him.",
@@ -173,7 +173,7 @@
                     "next_state": "State 18"
                 }
             ],
-            "background": "placeholder2.png"
+            "background": "abandoned_house.jpg"
         },
         "State 15": {
             "prompt": "You: \"What about my family? They must have been able to evacuate too, right? Right, Henry?\"",
@@ -183,7 +183,7 @@
                     "next_state": "State 19"
                 }
             ],
-            "background": "placeholder2.png"
+            "background": "abandoned_house.jpg"
         },
         "State 16": {
             "prompt": "You: \"This can't be happening. I have to call my family.\"\n\nYou search your pockets for your phone but it isn't there.\n\nYou: \"By any chance, have you seen my phone?\"",
@@ -193,7 +193,7 @@
                     "next_state": "State 20"
                 }
             ],
-            "background": "placeholder2.png"
+            "background": "abandoned_house.jpg"
         },
         "State 17": {
             "prompt": "You: \"No, I'm certain about this! I was at home. My family and I were in bed already, then I woke up because someone was violently knocking at the door. They wouldn't stop until I answered. I remember seeing a man at our doorstep, with a crowbar in his hand... \n\nWait, it was... you?\"\n\nHenry hits you in the head with a crowbar.",
@@ -203,7 +203,7 @@
                     "next_state": "Defeat A"
                 }
             ],
-            "background": "placeholder2.png"
+            "background": "abandoned_house.jpg"
         },
         "State 18": {
             "prompt": "You: \"You're right. It must have been just a dream... So what do we do now?\"",
@@ -213,7 +213,7 @@
                     "next_state": "State 21"
                 }
             ],
-            "background": "placeholder2.png"
+            "background": "abandoned_house.jpg"
         },
         "State 19": {
             "prompt": "Henry: \"I'm afraid not. The facility was next to your street, so I rushed to your place as soon as I heard about what was happening. When I got to your place, you were the only one I saw. You were unconscious and seemed to had fallen off the staircase. I carried you into my truck then left. I didn't have time to look for your family.\"",
@@ -227,7 +227,7 @@
                     "next_state": "State 22"
                 }
             ],
-            "background": "placeholder2.png"
+            "background": "abandoned_house.jpg"
         },
         "State 20": {
             "prompt": "Henry: \"I only took you as you were. You must have left it at home. Anyway, we have to get going. The safehouse is just a few miles from here.\"",
@@ -237,7 +237,7 @@
                     "next_state": "State 23"
                 }
             ],
-            "background": "placeholder2.png"
+            "background": "abandoned_house.jpg"
         },
         "State 21": {
             "prompt": "Henry: \"We have to get going. There is a safehouse just a few miles out. That's where we're headed.\"",
@@ -247,7 +247,7 @@
                     "next_state": "State 24"
                 }
             ],
-            "background": "placeholder2.png"
+            "background": "abandoned_house.jpg"
         },
         "State 22": {
             "prompt": "You can't believe you just lost your family. You break down and start crying, but you try to compose yourself in front of your old friend.\n\nYou: \"By any chance, do you know if I had my phone on me?\"",
@@ -257,7 +257,7 @@
                     "next_state": "State 20"
                 }
             ],
-            "background": "placeholder2.png"
+            "background": "abandoned_house.jpg"
         },
         "State 23": {
             "prompt": "You help Henry pack up then leave the building. You get inside the truck and he drives westward.",
@@ -267,7 +267,7 @@
                     "next_state": "State 25"
                 }
             ],
-            "background": "placeholder2.png"
+            "background": "outside1.jpg"
         },
         "State 24": {
             "prompt": "You help Henry pack up then leave the building. You get inside the truck and he drives westward.",
@@ -277,7 +277,7 @@
                     "next_state": "State 26"
                 }
             ],
-            "background": "placeholder2.png"
+            "background": "outside1.jpg"
         },
         "State 25": {
             "prompt": "Henry: \"You must have a lot of questions on your mind right now, but I promise, you'll get your answers once we arrive at the safehouse.\"",
@@ -291,7 +291,7 @@
                     "next_state": "State 28"
                 }
             ],
-            "background": "placeholder2.png"
+            "background": "outside1.jpg"
         },
         "State 26": {
             "prompt": "Henry: \"You must have a lot of questions on your mind right now, but I promise, you'll get your answers once we arrive at the safehouse.\"",
@@ -305,7 +305,7 @@
                     "next_state": "State 30"
                 }
             ],
-            "background": "placeholder2.png"
+            "background": "outside1.jpg"
         },
         "State 27": {
             "prompt": "You: \"This safehouse you speak of, how did you know about it?\"",
@@ -315,7 +315,7 @@
                     "next_state": "State 31"
                 }
             ],
-            "background": "placeholder2.png"
+            "background": "outside1.jpg"
         },
         "State 28": {
             "prompt": "You hear Henry talking to you but his words just go through one ear and out the other. You are still trying to accept the reality of living through a zombie apocalypse without your family.",
@@ -325,7 +325,7 @@
                     "next_state": "State 32"
                 }
             ],
-            "background": "placeholder2.png"
+            "background": "outside1.jpg"
         },
         "State 29": {
             "prompt": "You: \"This safehouse you speak of, how did you know about it?\"\n\nYour plan is to ask Henry as much questions as you can since you think you'll catch him slipping sooner or later.",
@@ -335,7 +335,7 @@
                     "next_state": "State 33"
                 }
             ],
-            "background": "placeholder2.png"
+            "background": "outside1.jpg"
         },
         "State 30": {
             "prompt": "Henry was acting weird earlier... What could he be hiding from you? You try your hardest to remember what happened on the night Henry picked you up at your house. You look around the car, searching for clues.",
@@ -345,7 +345,7 @@
                     "next_state": "State 34"
                 }
             ],
-            "background": "placeholder2.png"
+            "background": "outside1.jpg"
         },
         "State 31": {
             "prompt": "Henry: \"I contacted my cousin who lives just outside our city and told him about our situation. He's currently on vacation so I asked him if we could stay at his house until it's safe for us to go outside.\"",
@@ -355,7 +355,7 @@
                     "next_state": "State 35"
                 }
             ],
-            "background": "placeholder2.png"
+            "background": "outside1.jpg"
         },
         "State 32": {
             "prompt": "You notice that your phone is sitting on the dashboard. You recognize it by its blue case.\n\nHenry: \"You stil with me, Michael?\"",
@@ -365,7 +365,7 @@
                     "next_state": "State 36"
                 }
             ],
-            "background": "placeholder2.png"
+            "background": "outside1.jpg"
         },
         "State 33": {
             "prompt": "Henry: \"I contacted my cousin who lives just outside our city and told him about our situation. He's currently on vacation so I asked him if we could stay at his house until we're rescued.\"",
@@ -375,7 +375,7 @@
                     "next_state": "State 37"
                 }
             ],
-            "background": "placeholder2.png"
+            "background": "outside1.jpg"
         },
         "State 34": {
             "prompt": "You notice that your phone is sitting on the dashboard. You recognize it by its blue case.\n\nHenry: \"You stil with me, Michael?\"",
@@ -389,7 +389,7 @@
                     "next_state": "State 38"
                 }
             ],
-            "background": "placeholder2.png"
+            "background": "outside1.jpg"
         },
         "State 35": {
             "prompt": "You: \"I see. I hope we get there soon.\"",
@@ -399,7 +399,7 @@
                     "next_state": "State 39"
                 }
             ],
-            "background": "placeholder2.png"
+            "background": "outside1.jpg"
         },
         "State 36": {
             "prompt": "You: \"Henry, is that my phone on the dashboard? I thought you said I didn't bring it with me.\"",
@@ -409,7 +409,7 @@
                     "next_state": "State 40"
                 }
             ],
-            "background": "placeholder2.png"
+            "background": "outside1.jpg"
         },
         "State 37": {
             "prompt": "You: \"Why can't we just keep driving further away? Remaining in one place and just hoping for the best doesn't seem like the best idea.\"",
@@ -419,7 +419,7 @@
                     "next_state": "State 41"
                 }
             ],
-            "background": "placeholder2.png"
+            "background": "outside1.jpg"
         },
         "State 38": {
             "prompt": "You: \"Yeah, I'm with you. So, how long 'til we get there?\"",
@@ -429,7 +429,7 @@
                     "next_state": "State 42"
                 }
             ],
-            "background": "placeholder2.png"
+            "background": "outside1.jpg"
         },
         "State 39": {
             "prompt": "Your eyes start to get heavy. You decide to take a short nap.",
@@ -439,7 +439,7 @@
                     "next_state": "Defeat A"
                 }
             ],
-            "background": "placeholder2.png"
+            "background": "black.jpg"
         },
         "State 40": {
             "prompt": "Henry: \"I thought I wouldn't have to do this.\"\n\nHe pulls out the crowbar he stashed beside his chair and bashes your head with it to knock you out.",
@@ -449,7 +449,7 @@
                     "next_state": "Defeat A"
                 }
             ],
-            "background": "placeholder2.png"
+            "background": "outside1.jpg"
         },
         "State 41": {
             "prompt": "Henry: \"Look, I got this all sorted out. Just trust me.\"",
@@ -463,7 +463,7 @@
                     "next_state": "State 44"
                 }
             ],
-            "background": "placeholder2.png"
+            "background": "outside1.jpg"
         },
         "State 42": {
             "prompt": "Henry: \"We're about a couple of hours away. I know you still feel tired so you can take a nap if you want. I'll wake you up when we're close.\"",
@@ -477,7 +477,7 @@
                     "next_state": "State 45"
                 }
             ],
-            "background": "placeholder2.png"
+            "background": "outside1.jpg"
         },
 
         "State 43": {
@@ -488,7 +488,7 @@
                     "next_state": "State 46"
                 }
             ],
-            "background": "placeholder2.png"
+            "background": "outside1.jpg"
         },
         "State 44": {
             "prompt": "You: \"Alright then. I trust you.\"",
@@ -498,7 +498,7 @@
                     "next_state": "State 42"
                 }
             ],
-            "background": "placeholder2.png"
+            "background": "outside1.jpg"
         },
         "State 45": {
             "prompt": "You pretend to close your eyes to go to sleep. 10 minutes later, you hear Henry talking over the phone, \"Yeah, I have him with me. We're on our way to you.\"",
@@ -508,7 +508,7 @@
                     "next_state": "State 47"
                 }
             ],
-            "background": "placeholder2.png"
+            "background": "outside1.jpg"
         },
         "State 46": {
             "prompt": "Henry: \"Neither does a zombie apocalypse, right? If my plans haven't been working, then neither of us would still be alive right now.\"",
@@ -522,7 +522,7 @@
                     "next_state": "State 48"
                 }
             ],
-            "background": "placeholder2.png"
+            "background": "outside1.jpg"
         },
         "State 47": {
             "prompt": "You hear Henry pull the car over. He gets out of the car and opens the trunk. You looked around and see that you're in the woods.",
@@ -536,7 +536,7 @@
                     "next_state": "State 50"
                 }
             ],
-            "background": "placeholder2.png"
+            "background": "woods1.jpg"
         },
 
         "State 48": {
@@ -547,7 +547,7 @@
                     "next_state": "State 51"
                 }
             ],
-            "background": "placeholder2.png"
+            "background": "outside1.jpg"
         },
         "State 49": {
             "prompt": "You try turning your phone on but later notice that Henry took out the battery. You think that he did that to prevent anyone from tracking your whereabouts.\n\nJust as you return your phone to the dashboard, Henry shows up.",
@@ -557,7 +557,7 @@
                     "next_state": "State 40"
                 }
             ],
-            "background": "placeholder2.png"
+            "background": "outside1.jpg"
         },
         "State 50": {
             "prompt": "Henry gets back to the driver seat but he doesn't turn the engine on.",
@@ -567,7 +567,7 @@
                     "next_state": "State 52"
                 }
             ],
-            "background": "placeholder2.png"
+            "background": "outside1.jpg"
         },
         "State 51": {
             "prompt": "Henry: \"That's right. The zombie apocalypse was all a ruse, and I abducted you from your house 2 days ago.\n\nYou're tougher than I expected Michael.\"",
@@ -577,7 +577,7 @@
                     "next_state": "State 40"
                 }
             ],
-            "background": "placeholder2.png"
+            "background": "outside1.jpg"
         },
         "State 52": {
             "prompt": "You open your eyes discreetly so Henry wouldn't know you're awake, and see that he's about to inject you with some sort of drug. You figure it's a sedative.",
@@ -591,7 +591,7 @@
                     "next_state": "State 53"
                 }
             ],
-            "background": "placeholder2.png"
+            "background": "outside1.jpg"
         },
         "State 53": {
             "prompt": "Just before he injects you, you yawned and stretched to let him know you're awake. He retracts the syringe and hides it.\n\nYou: \"Have we arrived?\"",
@@ -601,7 +601,7 @@
                     "next_state": "State 54"
                 }
             ],
-            "background": "placeholder2.png"
+            "background": "outside1.jpg"
         },
         "State 54": {
             "prompt": "Henry: \"Not yet. I just made a quick stop to take a piss. Do you need to take a piss too?\"",
@@ -615,7 +615,7 @@
                     "next_state": "State 56"
                 }
             ],
-            "background": "placeholder2.png"
+            "background": "outside1.jpg"
         },
         "State 55": {
             "prompt": "Henry: \"Alright, then. I'll just be waiting here.\n\nYou went out of the truck and peed on one of the trees. This place lookd familiar to you, though. Then, it hit you that you've been here before. You just don't remember why. You went back into the truck and pondered.\"",
@@ -625,7 +625,7 @@
                     "next_state": "State 57"
                 }
             ],
-            "background": "placeholder2.png"
+            "background": "outside1.jpg"
         },
         "State 56": {
             "prompt": "Henry: \"Let's keep moving then.\"",
@@ -635,7 +635,7 @@
                     "next_state": "State 58"
                 }
             ],
-            "background": "placeholder2.png"
+            "background": "outside1.jpg"
         },
         "State 57": {
             "prompt": "Henry: \"You look like you got something on your mind. Do you mind sharing it with me?\"",
@@ -649,7 +649,7 @@
                     "next_state": "State 60"
                 }
             ],
-            "background": "placeholder2.png"
+            "background": "outside1.jpg"
         },
         "State 58": {
             "prompt": "Henry: \"So, do you feel better now?\"",
@@ -663,7 +663,7 @@
                     "next_state": "State 60"
                 }
             ],
-            "background": "placeholder2.png"
+            "background": "outside1.jpg"
         },
         "State 59": {
             "prompt": "You: \"I feel like I've passed through this road before. I just can't remember exactly when and why. It just looks familiar.\"",
@@ -673,7 +673,7 @@
                     "next_state": "State 62"
                 }
             ],
-            "background": "placeholder2.png"
+            "background": "overview1.jpg"
         },
         "State 60": {
             "prompt": "Henry: \"Don't worry. We'll be there soon. When we get there, my brother will take good care of you.\"",
@@ -683,7 +683,7 @@
                     "next_state": "State 63"
                 }
             ],
-            "background": "placeholder2.png"
+            "background": "overview1.jpg"
         },
         "State 61": {
             "prompt": "Henry: \"That's good. We'll be there soon. When we get there, my brother will patch you up and you'll be back in shape in no time.\"",
@@ -693,7 +693,7 @@
                     "next_state": "State 63"
                 }
             ],
-            "background": "placeholder2.png"
+            "background": "overview1.jpg"
         },
         "State 62": {
             "prompt": "Henry: \"Your mind must just be making up memories after hitting your head bad.\"",
@@ -703,7 +703,7 @@
                     "next_state": "State 60"
                 }
             ],
-            "background": "placeholder2.png"
+            "background": "overview1.jpg"
         },
         "State 63": {
             "prompt": "In your head, you're thinking, \"What does he mean by 'brother'?\" You thought it would just be the two of you in the safehouse. You then start to remember that Henry was one of your 'brothers' in the cult that you left 5 years ago. You were able to snap out of the brainwashing they did to you, but now it seems like they've come to get you back.",
@@ -717,7 +717,7 @@
                     "next_state": "State 65"
                 }
             ],
-            "background": "placeholder2.png"
+            "background": "outside1.jpg"
         },
         "State 64": {
             "prompt": "You: \"Have you abducted me to bring me back to the cult, Henry?\"",
@@ -727,7 +727,7 @@
                     "next_state": "State 66"
                 }
             ],
-            "background": "placeholder2.png"
+            "background": "outside1.jpg"
         },
         "State 65": {
             "prompt": "You arrive at the safehouse, and see 3 men dressed up in scrubs. Henry gets off the car, and tells them, \"That's him.\" They then held you in your seat and injected you with the same drug Henry was about to give you. Shortly after, you black out.",
@@ -737,7 +737,7 @@
                     "next_state": "Defeat A"
                 }
             ],
-            "background": "placeholder2.png"
+            "background": "outside1.jpg"
         },
         "State 66": {
             "prompt": "You see the astonishment in Henry's face.\n\nHenry: \"I'm impressed, Michael. I thought I'd get away with convincing you about the zombie apocalypse and making you follow me without hesitation. You see, once you've joined our cult, there's no turning back. You can try to separate from us, you can even get rid of me but we'll always find a way to bring you back.\"",
@@ -751,26 +751,26 @@
                     "next_state": "Victory"
                 }
             ],
-            "background": "placeholder2.png"
+            "background": "outside1.jpg"
         },
 
         "Defeat A": {
             "endgame": true,
             "heading": "DEFEAT",
             "desc": "You wake up strapped onto an operating table, with a bright white light directed at you. You can't move.\n\nYou hear footsteps coming from outside, and it's getting louder and louder...",
-            "background": "placeholder2.png"
+            "background": "outside1.jpg"
         },
         "Defeat B": {
             "endgame": true,
             "heading": "DEFEAT",
             "desc": "After a few minutes of fight over the control of the steering wheel, you lose control of the car, and crash into a truck that is moving in the opposite direction. Both of you did not survive the crash.",
-            "background": "placeholder2.png"
+            "background": "outside1.jpg"
         },
         "Victory": {
             "endgame": true,
             "heading": "SUCCESS",
             "desc": "Since Henry did not tie you up, you were able to jump out of the car. You sustained multiple wounds but you survived. You were able to make the truck driving the opposite direction stop, and got on it. You safely got away from Henry and your old cult, at least for now.",
-            "background": "placeholder2.png"
+            "background": "outside1.jpg"
         }
     }
 }
