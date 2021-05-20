@@ -24,17 +24,14 @@ class Button(object):
                  batch=None,
                  func=None,
                  func_args=[],
-                 func_kargs={},
-                 order_start=0):
+                 func_kargs={}):
         self.items = []
         self.func = func
         self.func_args = func_args
         self.func_kargs = func_kargs
         self.group = pyglet.graphics.Group()
-        self.background = pyglet.graphics.OrderedGroup(0 + order_start,
-                                                       parent=self.group)
-        self.foreground = pyglet.graphics.OrderedGroup(1 + order_start,
-                                                       parent=self.group)
+        self.background = pyglet.graphics.OrderedGroup(0, parent=self.group)
+        self.foreground = pyglet.graphics.OrderedGroup(1, parent=self.group)
 
         self.bg = pyglet.shapes.Rectangle(x,
                                           y,
@@ -78,7 +75,10 @@ class Button(object):
         self.bg.delete()
 
     def on_mouse_press(self, x, y, button, modifiers):
-        if self.func and self.bg.x - self.bg.anchor_x <= x <= self.bg.x + (self.bg.width - self.bg.anchor_x) and self.bg.y - self.bg.anchor_y <= y <= self.bg.y + (self.bg.height - self.bg.anchor_y):
+        if self.func and self.bg.x - self.bg.anchor_x <= x <= self.bg.x + (
+                self.bg.width - self.bg.anchor_x
+        ) and self.bg.y - self.bg.anchor_y <= y <= self.bg.y + (
+                self.bg.height - self.bg.anchor_y):
             self.func(*self.func_args, **self.func_kargs)
 
 
@@ -130,8 +130,7 @@ class ButtonArray(object):
                  height=None,
                  align='left',
                  multiline=False,
-                 batch=None,
-                 order_start=0):
+                 batch=None):
         '''
         texts - iterable of text
         funcs - iterable of func
@@ -159,8 +158,7 @@ class ButtonArray(object):
                        batch=batch,
                        func=func,
                        func_args=func_args if func_args is not None else [],
-                       func_kargs=func_kargs if func_kargs is not None else {},
-                       order_start=order_start))
+                       func_kargs=func_kargs if func_kargs is not None else {}))
 
     def __del__(self):
         for button in self.buttons:
@@ -173,24 +171,39 @@ class ButtonArray(object):
 
 class Prompt(object):
     def __init__(self, text, batch=None, group=None):
+        x, y = SCREEN_WIDTH // 2, 170
+        self.group = pyglet.graphics.Group()
+        self.background = pyglet.graphics.OrderedGroup(0, parent=self.group)
+        self.foreground = pyglet.graphics.OrderedGroup(1, parent=self.group)
         self.text = pyglet.text.Label(text,
                                       font_name="Segoe UI",
                                       font_size=16,
                                       color=(0, 0, 0, 255),
-                                      x=SCREEN_WIDTH // 2,
-                                      y=170,
+                                      x=x,
+                                      y=y,
                                       width=SCREEN_WIDTH - 200,
                                       anchor_x='center',
                                       anchor_y='bottom',
                                       multiline=True,
                                       batch=batch,
-                                      group=group)
+                                      group=self.foreground)
+        self.bg = pyglet.shapes.Rectangle(x,
+                                          y,
+                                          SCREEN_WIDTH,
+                                          self.text.content_height + 20,
+                                          color=(255, 255, 255),
+                                          batch=batch,
+                                          group=self.background)
+        self.bg.opacity = 140
+        self.bg.anchor_x = self.bg.width // 2
+        self.bg.anchor_y = 10
 
     def __del__(self):
         self.text.delete()
 
     def update(self, text):
         self.text.text = text
+
 
 class Alert(object):
     def __init__(self, batch=None, group=None):
