@@ -118,8 +118,8 @@ class Game(object):
         self.main_menu()
 
     def surrender(self):
-        self.phases[IN_GAME] = InGame(self, "surrender")
-        self.change_phase(IN_GAME)
+        surrender_state = {'heading': "SURRENDERED", 'desc': 'You have surrendered...', 'background': 'surrender.jpg'}
+        self.end_game(surrender_state['heading'], surrender_state['desc'], surrender_state['background'])
 
     def slot_exists(self, name='0'):
         path = os.path.join(SAVE_DIR, name)
@@ -390,26 +390,6 @@ class InGame(Phase):
         self.update_background()
         self.show_prompt()
         self.show_actions()
-
-    def surrender(self):
-        pyglet.text.Label('GAME OVER',
-                          color=(255, 0, 0, 255),
-                          anchor_x='center',
-                          x=SCREEN_WIDTH // 2,
-                          y=SCREEN_HEIGHT - 100,
-                          batch=self.batch)
-        self.prompt = hud.Prompt("You have surrendered...", batch=self.batch)
-        self.action = 'Back to Main Menu'
-        self.clickables.append(
-            hud.Button(self.action,
-                       font_name="Segoe UI Black",
-                       font_size=14,
-                       x=SCREEN_WIDTH // 2,
-                       y=130,
-                       color=(255, 255, 255, 255),
-                       bg_color=(239, 68, 68),
-                       batch=self.batch,
-                       func=self.game.main_menu))
 
     def show_prompt(self):
         self.hide_prompt()
