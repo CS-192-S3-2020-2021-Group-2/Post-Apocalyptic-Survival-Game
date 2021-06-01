@@ -190,7 +190,7 @@ class MainMenu(Phase):
                                          SCREEN_WIDTH // 2,
                                          SCREEN_HEIGHT - 110,
                                          batch=self.batch)
-        self.icon.update(scale=1.25)
+        self.icon.update(scale=0.7)
 
         self.clickables.append(
             hud.Button('NEW GAME',
