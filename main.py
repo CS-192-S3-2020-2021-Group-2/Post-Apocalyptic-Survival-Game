@@ -119,8 +119,13 @@ class Game(object):
         self.main_menu()
 
     def surrender(self):
-        surrender_state = {'heading': "SURRENDERED", 'desc': 'You have surrendered...', 'background': 'surrender.jpg'}
-        self.end_game(surrender_state['heading'], surrender_state['desc'], surrender_state['background'])
+        surrender_state = {
+            'heading': "SURRENDERED",
+            'desc': 'You have surrendered...',
+            'background': 'surrender.jpg'
+        }
+        self.end_game(surrender_state['heading'], surrender_state['desc'],
+                      surrender_state['background'])
 
     def slot_exists(self, name='0'):
         path = os.path.join(SAVE_DIR, name)
@@ -181,6 +186,11 @@ class MainMenu(Phase):
                           x=SCREEN_WIDTH // 2,
                           y=SCREEN_HEIGHT - 250,
                           batch=self.batch)
+        self.icon = pyglet.sprite.Sprite(assets.house_icon,
+                                         SCREEN_WIDTH // 2,
+                                         SCREEN_HEIGHT - 110,
+                                         batch=self.batch)
+        self.icon.update(scale=1.25)
 
         self.clickables.append(
             hud.Button('NEW GAME',

@@ -25,7 +25,7 @@ for path in pathlib.Path(BACKGROUND_DIR).iterdir():
         os.path.join(BACKGROUND_DIR, path.name))
 
 # center the anchor of all images
-images = [pause_icon, *backgrounds.values()]
+images = [pause_icon, house_icon, *backgrounds.values()]
 for image in images:
     image.anchor_x = image.width // 2
     image.anchor_y = image.height // 2
