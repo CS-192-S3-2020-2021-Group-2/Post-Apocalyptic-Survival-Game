@@ -20,6 +20,7 @@ SAVE_DIR = 'saves'
 class Game(object):
     def __init__(self, width, height, caption="", resizeable=False):
         self.window = pyglet.window.Window(width, height, caption, resizeable)
+        self.window.set_icon(assets.house_icon)
         self.story = self.load_story()
 
         # set clear color to white
