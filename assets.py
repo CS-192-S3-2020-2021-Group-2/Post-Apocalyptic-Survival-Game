@@ -16,6 +16,7 @@ buttonFont = pyglet.font.load("Segoe UI Black")
 ### IMAGE ASSETS ###
 # Icons
 pause_icon = pyglet.image.load('assets/icons/pause.png')
+house_icon = pyglet.image.load('assets/icons/house8bit.png')
 
 # Backgrounds
 backgrounds = {}
