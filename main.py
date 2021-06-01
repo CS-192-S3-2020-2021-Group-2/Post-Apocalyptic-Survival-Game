@@ -170,7 +170,7 @@ class MainMenu(Phase):
         self.batch = pyglet.graphics.Batch()
         self.clickables = []  # list of clickable objects
 
-        pyglet.text.Label("POST APOCALYPTIC SURVIVAL GAME",
+        pyglet.text.Label("HOME",
                           font_name="Press Start",
                           font_size=22,
                           color=(0, 0, 0, 255),
