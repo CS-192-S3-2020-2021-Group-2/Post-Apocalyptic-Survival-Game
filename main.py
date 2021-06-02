@@ -384,7 +384,7 @@ class InGame(Phase):
             self.state = state
 
         pyglet.text.Label('IN GAME',
-                          color=(0, 0, 0, 255),
+                          color=(255, 255, 255, 255),
                           anchor_x='center',
                           x=SCREEN_WIDTH // 2,
                           y=SCREEN_HEIGHT - 100,
@@ -489,7 +489,7 @@ class EndGame(Phase):
         self.heading = pyglet.text.Label(heading,
                                          font_name="Press Start",
                                          font_size=22,
-                                         color=(0, 0, 0, 255),
+                                         color=(255, 255, 255, 255),
                                          anchor_x='center',
                                          x=SCREEN_WIDTH // 2,
                                          y=SCREEN_HEIGHT - 200,
